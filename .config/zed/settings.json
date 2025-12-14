@@ -1,0 +1,104 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "tab_size": 2,
+  "agent_servers": {
+    "OpenCode": {
+      "command": "opencode",
+      "args": ["acp"]
+    }
+  },
+  "context_servers": {
+    "shadcn": {
+      "source": "custom",
+      "enabled": false,
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    },
+    "mcp-server-linear": {
+      "source": "extension",
+      "enabled": false,
+      "settings": {
+        "linear_api_key": ""
+      }
+    },
+    "mcp-server-firecrawl": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {
+        "firecrawl_api_key": ""
+      }
+    }
+  },
+  "terminal": {
+    "button": false,
+    "dock": "right"
+  },
+  "outline_panel": {
+    "button": false
+  },
+  "vim_mode": true,
+  "agent": {
+    "always_allow_tool_actions": true,
+    "inline_assistant_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-latest"
+    },
+    "default_profile": "write",
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-latest"
+    }
+  },
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
+  "ui_font_family": "Geist",
+  "ui_font_size": 16,
+  "buffer_font_family": "Geist Mono",
+  "buffer_font_size": 16,
+  "theme": {
+    "mode": "system",
+    "light": "Remark Light",
+    "dark": "Remark Dark"
+  },
+  "soft_wrap": "editor_width",
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "inlayHints": {
+            "parameterNames": {
+              "enabled": "all",
+              "suppressWhenArgumentMatchesName": false
+            },
+            "parameterTypes": {
+              "enabled": true
+            },
+            "variableTypes": {
+              "enabled": true,
+              "suppressWhenTypeMatchesName": true
+            },
+            "propertyDeclarationTypes": {
+              "enabled": true
+            },
+            "functionLikeReturnTypes": {
+              "enabled": true
+            },
+            "enumMemberValues": {
+              "enabled": true
+            }
+          },
+          "tsserver": { "maxTsServerMemory": 16184 }
+        },
+        "javascript": { "tsserver": { "maxTsServerMemory": 16184 } }
+      }
+    }
+  }
+}
