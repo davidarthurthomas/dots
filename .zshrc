@@ -241,7 +241,7 @@ wtl() {
 
 # Switch worktree (fzf)
 wts() {
-  local selected=$(git worktree list | fzf --height=40% | awk '{print $1}')
+  local selected=$(git worktree list | fzf --height=~50% | awk '{print $1}')
   [[ -n "$selected" ]] && cd "$selected"
 }
 
