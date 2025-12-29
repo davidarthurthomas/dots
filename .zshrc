@@ -9,6 +9,7 @@ export BUN_INSTALL="$HOME/.bun"
 # =============================================================================
 # PATH Configuration
 # =============================================================================
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
@@ -112,79 +113,6 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 take() { mkdir -p "$1" && cd "$1" }
 
 # =============================================================================
-# Git Worktrees
-# =============================================================================
-# Create new worktree + branch (handles slashes in branch names)
-wta() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: wta <branch-name>"
-    return 1
-  fi
-
-  local branch="$1"
-  local base="$(basename $(git rev-parse --show-toplevel))"
-  local safe_name="${branch//\//-}"
-  local path="../${base}--${safe_name}"
-
-  git worktree add -b "$branch" "$path"
-  cd "$path"
-}
-
-# Checkout existing branch as worktree
-wtc() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: wtc <existing-branch>"
-    return 1
-  fi
-
-  local branch="$1"
-  local base="$(basename $(git rev-parse --show-toplevel))"
-  local safe_name="${branch//\//-}"
-  local path="../${base}--${safe_name}"
-
-  git worktree add "$path" "$branch"
-  cd "$path"
-}
-
-# List worktrees
-wtl() {
-  git worktree list
-}
-
-# Switch worktree (fzf)
-wts() {
-  local selected=$(git worktree list | fzf --height=40% | awk '{print $1}')
-  [[ -n "$selected" ]] && cd "$selected"
-}
-
-# Delete current worktree + branch
-wtd() {
-  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-  local worktree=$(pwd)
-  local main=$(git worktree list | head -1 | awk '{print $1}')
-
-  if [[ "$worktree" == "$main" ]]; then
-    echo "Can't delete main worktree"
-    return 1
-  fi
-
-  echo "Delete worktree: $worktree"
-  echo "Delete branch:   $branch"
-  read -q "?Continue? (y/n) " && echo
-
-  [[ "$REPLY" == "y" ]] || return 0
-
-  cd "$main"
-  git worktree remove "$worktree" --force
-  git branch -D "$branch"
-}
-
-# Prune stale worktrees
-wtp() {
-  git worktree prune -v
-}
-
-# =============================================================================
 # Tool Initialization
 # =============================================================================
 # fnm (Fast Node Manager) - replaces nvm
@@ -270,6 +198,79 @@ precmd_vcs_info() {
 }
 precmd_functions+=( precmd_vcs_info )
 RPROMPT='${vcs_info_msg_0_}'
+
+# =============================================================================
+# Git Worktrees
+# =============================================================================
+# Create new worktree + branch (handles slashes in branch names)
+wta() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: wta <branch-name>"
+    return 1
+  fi
+
+  local branch="$1"
+  local base="$(basename $(git rev-parse --show-toplevel))"
+  local safe_name="${branch//\//-}"
+  local wt_path="../${base}--${safe_name}"
+
+  git worktree add -b "$branch" "$wt_path"
+  cd "$wt_path"
+}
+
+# Checkout existing branch as worktree
+wtc() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: wtc <existing-branch>"
+    return 1
+  fi
+
+  local branch="$1"
+  local base="$(basename $(git rev-parse --show-toplevel))"
+  local safe_name="${branch//\//-}"
+  local wt_path="../${base}--${safe_name}"
+
+  git worktree add "$wt_path" "$branch"
+  cd "$wt_path"
+}
+
+# List worktrees
+wtl() {
+  git worktree list
+}
+
+# Switch worktree (fzf)
+wts() {
+  local selected=$(git worktree list | fzf --height=40% | awk '{print $1}')
+  [[ -n "$selected" ]] && cd "$selected"
+}
+
+# Delete current worktree + branch
+wtd() {
+  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  local worktree=$(pwd)
+  local main=$(git worktree list | head -1 | awk '{print $1}')
+
+  if [[ "$worktree" == "$main" ]]; then
+    echo "Can't delete main worktree"
+    return 1
+  fi
+
+  echo "Delete worktree: $worktree"
+  echo "Delete branch:   $branch"
+  read -q "?Continue? (y/n) " && echo
+
+  [[ "$REPLY" == "y" ]] || return 0
+
+  cd "$main"
+  git worktree remove "$worktree" --force
+  git branch -D "$branch"
+}
+
+# Prune stale worktrees
+wtp() {
+  git worktree prune -v
+}
 
 # =============================================================================
 # Plugins
