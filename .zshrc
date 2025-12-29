@@ -97,6 +97,37 @@ alias gco='git checkout'
 alias gb='git branch'
 alias gst='git stash'
 alias gsp='git stash pop'
+alias grs='git rebase --update-refs'
+alias grsi='git rebase --update-refs -i'
+alias grc='git rebase --continue'
+alias gra='git rebase --abort'
+alias gpf='git push --force-with-lease'
+
+# Stacked PR helpers
+grom() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: grom <base-branch>"
+    return 1
+  fi
+  git rebase --update-refs "$1"
+}
+
+gbs() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: gbs <base-branch>"
+    return 1
+  fi
+  git log --oneline --decorate "$1"..HEAD
+}
+
+gps() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: gps <base-branch>"
+    return 1
+  fi
+  git log --format='%(decorate:prefix=,suffix=,pointer=,separator=%n)' "$1"..HEAD \
+    | grep -v '^$' | grep -v 'HEAD' | xargs -r git push --force-with-lease origin
+}
 
 # =============================================================================
 # Aliases - Misc
