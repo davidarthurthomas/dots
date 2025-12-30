@@ -44,26 +44,33 @@ wts() {
   [[ -n "$selected" ]] && cd "$selected"
 }
 
-# Delete current worktree + branch
+# Delete worktree + branch by branch name
 wtd() {
-  local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-  local worktree=$(pwd)
-  local main=$(git worktree list | head -1 | awk '{print $1}')
+  if [[ -z "$1" ]]; then
+    echo "Usage: wtd <branch-name>"
+    return 1
+  fi
 
-  if [[ "$worktree" == "$main" ]]; then
+  local branch="$1"
+  local worktree=$(git worktree list --porcelain | grep -B 2 "branch refs/heads/$branch" | head -1 | awk '{print $2}')
+
+  if [[ -z "$worktree" ]]; then
+    echo "No worktree found for branch: $branch"
+    return 1
+  fi
+
+  # Check if it's the main worktree
+  if [[ -d "$worktree/.git" ]]; then
     echo "Can't delete main worktree"
     return 1
   fi
 
   echo "Delete worktree: $worktree"
-  echo "Delete branch:   $branch"
   read -q "?Continue? (y/n) " && echo
 
   [[ "$REPLY" == "y" ]] || return 0
 
-  cd "$main"
   git worktree remove "$worktree" --force
-  git branch -D "$branch"
 }
 
 # Prune stale worktrees
