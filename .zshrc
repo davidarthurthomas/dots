@@ -125,8 +125,9 @@ gps() {
     echo "Usage: gps <base-branch>"
     return 1
   fi
-  git log --format='%(decorate:prefix=,suffix=,pointer=,separator=%n)' "$1"..HEAD \
-    | grep -v '^$' | grep -v 'HEAD' | xargs -r git push --force-with-lease origin
+  git log --format='%(decorate:prefix=,suffix=,pointer=%n,separator=%n)' "$1"..HEAD \
+    | grep -v '^$' | grep -v '^HEAD$' | grep -v '^origin/' | sort -u \
+    | xargs -r git push --force-with-lease origin
 }
 
 # =============================================================================
@@ -161,7 +162,7 @@ source <(fzf --zsh)
 PROMPT='%n@%m %1~ %# '
 
 # =============================================================================
-# Git Status Display (RPROMPT)
+# Git Status Display (RPROMPT) - Async
 # =============================================================================
 # Shows: branch, sync status (↑N/↓N), staged (+N), modified (~N),
 # untracked (?N), stashed (⚑N), and special states (merge/rebase/cherry-pick)
@@ -169,66 +170,60 @@ PROMPT='%n@%m %1~ %# '
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' unstagedstr '~'
-zstyle ':vcs_info:*' stagedstr '+'
 zstyle ':vcs_info:*' formats '%b'
 zstyle ':vcs_info:*' actionformats '%b|%a'
 
-git_status() {
-    local ahead behind staged modified untracked stashed
-    local -a git_status_info
+_git_status_async_callback() {
+    local fd=$1
+    RPROMPT="$(<&$fd)"
+    zle reset-prompt
+    exec {fd}<&-
+}
 
-    # Get ahead/behind info
+_git_status_worker() {
+    vcs_info
+    [[ -z ${vcs_info_msg_0_} ]] && return
+
+    local branch=${vcs_info_msg_0_//[\[\]]/}
+    local ahead behind staged modified untracked stashed
+    local -a info
+
     ahead=$(git rev-list --count @{upstream}..HEAD 2>/dev/null)
     behind=$(git rev-list --count HEAD..@{upstream} 2>/dev/null)
-    if [[ -n "$ahead" && -n "$behind" ]]; then
-        [[ "$ahead" -gt 0 ]] && git_status_info+=("↑$ahead")
-        [[ "$behind" -gt 0 ]] && git_status_info+=("↓$behind")
-    fi
+    [[ "$ahead" -gt 0 ]] && info+=("↑$ahead")
+    [[ "$behind" -gt 0 ]] && info+=("↓$behind")
 
-    # Get staged/unstaged/untracked counts
-    staged=$(git diff --cached --numstat | wc -l | tr -d ' ')
-    modified=$(git diff --numstat | wc -l | tr -d ' ')
-    untracked=$(git ls-files --others --exclude-standard | wc -l | tr -d ' ')
-    stashed=$(git stash list | wc -l | tr -d ' ')
+    staged=$(git diff --cached --numstat 2>/dev/null | wc -l | tr -d ' ')
+    modified=$(git diff --numstat 2>/dev/null | wc -l | tr -d ' ')
+    untracked=$(git ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
+    stashed=$(git stash list 2>/dev/null | wc -l | tr -d ' ')
 
-    # Add counts to status
-    [[ "$staged" -gt 0 ]] && git_status_info+=("+$staged")
-    [[ "$modified" -gt 0 ]] && git_status_info+=("~$modified")
-    [[ "$untracked" -gt 0 ]] && git_status_info+=("?$untracked")
-    [[ "$stashed" -gt 0 ]] && git_status_info+=("⚑$stashed")
+    [[ "$staged" -gt 0 ]] && info+=("+$staged")
+    [[ "$modified" -gt 0 ]] && info+=("~$modified")
+    [[ "$untracked" -gt 0 ]] && info+=("?$untracked")
+    [[ "$stashed" -gt 0 ]] && info+=("⚑$stashed")
 
-    # Check for merge/rebase/cherry-pick
-    if [[ -d "$(git rev-parse --git-dir)/rebase-merge" ]]; then
-        git_status_info+=("rebase")
-    elif [[ -d "$(git rev-parse --git-dir)/rebase-apply" ]]; then
-        git_status_info+=("rebase")
-    elif [[ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]]; then
-        git_status_info+=("merge")
-    elif [[ -f "$(git rev-parse --git-dir)/CHERRY_PICK_HEAD" ]]; then
-        git_status_info+=("cherry-pick")
-    fi
+    local git_dir=$(git rev-parse --git-dir 2>/dev/null)
+    [[ -d "$git_dir/rebase-merge" || -d "$git_dir/rebase-apply" ]] && info+=("rebase")
+    [[ -f "$git_dir/MERGE_HEAD" ]] && info+=("merge")
+    [[ -f "$git_dir/CHERRY_PICK_HEAD" ]] && info+=("cherry-pick")
 
-    # Only join if we have elements
-    if (( ${#git_status_info} > 0 )); then
-        echo " ${(j: :)git_status_info}"
-    else
-        echo ""
-    fi
+    echo "$branch${info:+ ${(j: :)info}}"
 }
 
 precmd_vcs_info() {
-    vcs_info
-    if [[ -n ${vcs_info_msg_0_} ]]; then
-        local clean_branch=${vcs_info_msg_0_//[\[\]]/}
-        RPROMPT="$clean_branch$(git_status)"
-    else
-        RPROMPT=""
-    fi
+    RPROMPT=""
+
+    # Skip if not in a git repo
+    git rev-parse --is-inside-work-tree &>/dev/null || return
+
+    local fd
+    exec {fd}< <(_git_status_worker)
+    zle -F $fd _git_status_async_callback
 }
-precmd_functions+=( precmd_vcs_info )
-RPROMPT='${vcs_info_msg_0_}'
+
+precmd_functions=(${precmd_functions:#precmd_vcs_info})
+precmd_functions+=(precmd_vcs_info)
 
 # =============================================================================
 # Sourced Scripts
