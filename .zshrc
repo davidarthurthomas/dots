@@ -173,16 +173,12 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' formats '%b'
 zstyle ':vcs_info:*' actionformats '%b|%a'
 
-_git_status_async_callback() {
-    local fd=$1
-    RPROMPT="$(<&$fd)"
-    zle reset-prompt
-    exec {fd}<&-
-}
+precmd_vcs_info() {
+    # Skip if not in a git repo
+    git rev-parse --is-inside-work-tree &>/dev/null || { RPROMPT=""; return; }
 
-_git_status_worker() {
     vcs_info
-    [[ -z ${vcs_info_msg_0_} ]] && return
+    [[ -z ${vcs_info_msg_0_} ]] && { RPROMPT=""; return; }
 
     local branch=${vcs_info_msg_0_//[\[\]]/}
     local ahead behind staged modified untracked stashed
@@ -208,22 +204,13 @@ _git_status_worker() {
     [[ -f "$git_dir/MERGE_HEAD" ]] && info+=("merge")
     [[ -f "$git_dir/CHERRY_PICK_HEAD" ]] && info+=("cherry-pick")
 
-    echo "$branch${info:+ ${(j: :)info}}"
+    RPROMPT="$branch${info:+ ${(j: :)info}}"
 }
 
-precmd_vcs_info() {
-    RPROMPT=""
-
-    # Skip if not in a git repo
-    git rev-parse --is-inside-work-tree &>/dev/null || return
-
-    local fd
-    exec {fd}< <(_git_status_worker)
-    zle -F $fd _git_status_async_callback
-}
-
-precmd_functions=(${precmd_functions:#precmd_vcs_info})
-precmd_functions+=(precmd_vcs_info)
+# Add precmd_vcs_info to precmd_functions if not already present
+if [[ ! ${precmd_functions[(I)precmd_vcs_info]} -gt 0 ]]; then
+    precmd_functions+=(precmd_vcs_info)
+fi
 
 # =============================================================================
 # Sourced Scripts
