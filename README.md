@@ -19,6 +19,7 @@ This lets you run git commands like `config status`, `config add`, `config commi
 - `.zshrc` - Zsh configuration (aliases, prompt, plugins, etc.)
 - `.config/` - Application configurations
 - `Library/` - macOS application settings
+- `Brewfile` - Homebrew packages and applications
 
 ## Setting Up on a New Machine
 
@@ -65,6 +66,12 @@ Add this line to your `~/.zshrc` or `~/.bashrc`:
 
 ```bash
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+```
+
+### 6. Install Homebrew Packages
+
+```bash
+brew bundle --file=~/Brewfile
 ```
 
 ## Usage
