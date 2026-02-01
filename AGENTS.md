@@ -49,6 +49,8 @@ Worktrees are created as sibling directories named `<repo>--<branch>`.
 
 **What you must never do:** Push, force push, rebase, amend, reset, delete branches, or discard changes. These are destructive or affect the remote - I handle them myself.
 
+**No attribution.** Don't add "Co-Authored-By" or similar attribution lines to commits.
+
 ## TypeScript
 
 I work primarily in TypeScript. These rules aren't negotiable:
