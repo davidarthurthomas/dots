@@ -1,6 +1,15 @@
 # =============================================================================
 # Git Worktrees
 # =============================================================================
+
+# Copy .env* files to a target directory
+_wt_copy_env() {
+  local dest="$1"
+  for f in .env*; do
+    [[ -f "$f" ]] && cp "$f" "$dest/"
+  done
+}
+
 # Create new worktree + branch (handles slashes in branch names)
 wta() {
   if [[ -z "$1" ]]; then
@@ -13,7 +22,8 @@ wta() {
   local safe_name="${branch//\//-}"
   local wt_path="../${base}--${safe_name}"
 
-  git worktree add -b "$branch" "$wt_path"
+  git worktree add -b "$branch" "$wt_path" || return 1
+  _wt_copy_env "$wt_path"
   cd "$wt_path"
 }
 
@@ -29,7 +39,8 @@ wtc() {
   local safe_name="${branch//\//-}"
   local wt_path="../${base}--${safe_name}"
 
-  git worktree add "$wt_path" "$branch"
+  git worktree add "$wt_path" "$branch" || return 1
+  _wt_copy_env "$wt_path"
   cd "$wt_path"
 }
 
