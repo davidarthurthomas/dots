@@ -1,0 +1,1 @@
+/Users/davidthomas/AGENTS.md
