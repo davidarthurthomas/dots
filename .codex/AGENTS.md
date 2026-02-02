@@ -158,7 +158,22 @@ I care about clean, readable history. Each commit should tell a story.
 
 **No attribution.** Don't add "Co-Authored-By" or similar attribution lines to commits.
 
-**Keep PRs small.** Before starting work, think about how the changes could be broken into small, focused PRs. Each PR should do one thing well. This makes review easier and reduces risk. When describing a PR, write 2 sentences max explaining the change, then list major decisions in order of importance and risk.
+**Keep PRs small.** Before starting work, think about how the changes could be broken into small, focused PRs. Each PR should do one thing well. This makes review easier and reduces risk.
+
+**The `gh` CLI is available.** Use it to create and edit PRs, and always assign PRs to me.
+
+**PR titles.** Use present-tense imperative, no prefixes, and no trailing period. Keep it under ~60 characters and describe the primary change. Only include a Linear issue ID in the title if the branch name does not already include that ID.
+
+**PR descriptions.** If the PR is small enough, a description is not necessary. Otherwise, write 2 sentences max explaining what changed and why, then list major decisions as bullets ordered by importance and risk. Do not include minor implementation details or a testing section.
+
+Good example:
+```
+Reduce database round-trips by batching user lookups.
+This keeps the endpoint fast under load without changing behavior.
+
+- Batch by account_id to match the most common access pattern.
+- Keep the existing query shape to avoid widening the API response.
+```
 
 **I prefer worktrees to checking out branches.** Worktrees let me keep multiple branches open in separate directories without stashing or losing context. My shell has helper functions:
 
