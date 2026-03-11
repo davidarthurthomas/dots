@@ -147,8 +147,8 @@ take() { mkdir -p "$1" && cd "$1" }
 # =============================================================================
 # Tool Initialization
 # =============================================================================
-# fnm (Fast Node Manager) - replaces nvm
-eval "$(fnm env --use-on-cd)"
+# mise - polyglot runtime manager
+eval "$(mise activate zsh)"
 
 # fzf - fuzzy finder (Ctrl+R for history, Ctrl+T for files, Alt+C for cd)
 source <(fzf --zsh)

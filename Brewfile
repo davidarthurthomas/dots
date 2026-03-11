@@ -7,7 +7,7 @@ brew "eza"
 brew "zoxide"
 brew "ripgrep"
 brew "fzf"
-brew "fnm"
+brew "mise"
 
 # Zsh plugins
 brew "zsh-autosuggestions"
