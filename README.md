@@ -103,6 +103,35 @@ config commit -m "Add some-config-file"
 config push
 ```
 
+## Globally Installed Tools
+
+### qmd
+
+[qmd](https://github.com/tobi/qmd) is an on-device search engine for markdown notes, documentation, and knowledge bases. It combines BM25 full-text search, vector semantic search, and LLM re-ranking, all running locally via node-llama-cpp with GGUF models.
+
+Installed globally via npm:
+
+```bash
+npm install -g @tobilu/qmd
+```
+
+Basic usage:
+
+```bash
+# Add a collection of markdown files
+qmd collection add ~/path/to/docs --name docs
+
+# Generate embeddings
+qmd embed
+
+# Search
+qmd search "query"           # Keyword search (BM25)
+qmd vsearch "query"          # Semantic search (vector)
+qmd query "query"            # Hybrid search with reranking
+```
+
+It also supports MCP for agent integration (`qmd mcp`).
+
 ## References
 
 - [Atlassian: How to Store Dotfiles](https://www.atlassian.com/git/tutorials/dotfiles)

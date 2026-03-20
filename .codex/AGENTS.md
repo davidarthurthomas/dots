@@ -212,6 +212,29 @@ macOS with Homebrew. Dotfiles managed via a bare git repo in `~/.cfg` with a `co
 
 **Package managers:** Projects may use npm, pnpm, or bun. Check the lockfile to see which one a project uses.
 
+## qmd
+
+[qmd](https://github.com/tobi/qmd) is available globally for searching markdown files. Use it when you need to search across notes, documentation, or knowledge bases.
+
+```bash
+# List configured collections
+qmd collection list
+
+# Search
+qmd search "query"           # Keyword search (BM25)
+qmd vsearch "query"          # Semantic search (vector)
+qmd query "query"            # Hybrid search with reranking
+
+# Read specific files from results
+qmd get <uri>
+
+# Add a new collection
+qmd collection add /path/to/docs --name name
+qmd embed                    # Generate embeddings after adding
+```
+
+Use `qmd search` for exact keyword matches, `qmd vsearch` for meaning-based queries, and `qmd query` for the best results (combines both with LLM reranking, but is slower).
+
 ## Before You Hand Off
 
 When you finish a task:
