@@ -16,7 +16,7 @@ This lets you run git commands like `config status`, `config add`, `config commi
 
 ## What's Tracked
 
-- `.zshrc` - Zsh configuration (aliases, prompt, plugins, etc.)
+- `.config/fish/` - Fish shell configuration (env, aliases, prompt, functions)
 - `.config/` - Application configurations
 - `Library/` - macOS application settings
 - `Brewfile` - Homebrew packages and applications
@@ -62,10 +62,10 @@ config config --local status.showUntrackedFiles no
 
 ### 5. Add the Alias Permanently
 
-Add this line to your `~/.zshrc` or `~/.bashrc`:
+Add this line to your `~/.config/fish/conf.d/abbr.fish`:
 
-```bash
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+```fish
+alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 ```
 
 ### 6. Install Homebrew Packages

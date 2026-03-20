@@ -9,10 +9,8 @@ brew "ripgrep"
 brew "fzf"
 brew "mise"
 
-# Zsh plugins
-brew "zsh-autosuggestions"
-brew "zsh-syntax-highlighting"
-brew "zsh-you-should-use"
+# Shell
+brew "fish"
 
 # =============================================================================
 # GUI Applications

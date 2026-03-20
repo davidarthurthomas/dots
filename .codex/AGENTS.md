@@ -146,13 +146,9 @@ When you propose a dependency, come prepared: explain why it's needed, what alte
 
 I care about clean, readable history. Each commit should tell a story.
 
-**I curate history myself.** I regularly rebase, squash, and reorder commits before merging. Don't rebase, amend, or otherwise rewrite history - that's my job.
+**Keep a clean history.** Commit as you go - each commit should be atomic and the code should pass project diagnostics at every point. I regularly rebase, squash, and reorder commits before merging, so don't rebase, amend, or otherwise rewrite history - that's my job.
 
 **What you must never do:** Push, force push, rebase, amend, reset, delete branches, or discard changes. These are destructive or affect the remote - I handle them myself.
-
-**What you can do:** Read-only commands (`status`, `log`, `diff`, `show`), stage files, and commit.
-
-**Commits should be atomic.** One logical change per commit. The code should compile and pass tests at every commit. If you're making multiple changes, commit them separately so I can review, reorder, or revert them independently.
 
 **Write commit messages in present-tense imperative mood.** "Add login form" not "Added login form." This matches Git's built-in style (e.g., "Merge branch...").
 
@@ -161,6 +157,8 @@ I care about clean, readable history. Each commit should tell a story.
 **Keep PRs small.** Before starting work, think about how the changes could be broken into small, focused PRs. Each PR should do one thing well. This makes review easier and reduces risk.
 
 **The `gh` CLI is available.** Use it to create and edit PRs, and always assign PRs to me.
+
+**If `gh pr create` fails,** respond with: (1) the GitHub URL to open the PR with the correct base branch, and (2) the title and description in code blocks so they're easy to copy.
 
 **PR titles.** Use present-tense imperative, no prefixes, and no trailing period. Keep it under ~60 characters and describe the primary change. Only include a Linear issue ID in the title if the branch name does not already include that ID.
 
@@ -204,13 +202,13 @@ macOS with Homebrew. Dotfiles managed via a bare git repo in `~/.cfg` with a `co
 
 **Editor:** Zed
 
-**Shell:** zsh with modern CLI replacements:
+**Shell:** fish with modern CLI replacements:
 - `eza` for `ls` (aliased)
-- `zoxide` for `cd` (aliased as `z`)
+- `zoxide` for `cd` (via `zoxide init fish --cmd cd`)
 - `ripgrep` for `grep` (aliased)
 - `fzf` for fuzzy finding
 
-**Node:** Managed with `fnm` (fast node manager). It auto-switches versions based on `.node-version` or `.nvmrc` files.
+**Node:** Managed with `mise` (polyglot runtime manager). It auto-switches versions based on `.node-version` or `.nvmrc` files.
 
 **Package managers:** Projects may use npm, pnpm, or bun. Check the lockfile to see which one a project uses.
 
