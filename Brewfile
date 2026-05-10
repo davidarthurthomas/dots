@@ -8,6 +8,7 @@ brew "zoxide"
 brew "ripgrep"
 brew "fzf"
 brew "mise"
+brew "modem-dev/tap/hunk"
 
 # Shell
 brew "fish"
