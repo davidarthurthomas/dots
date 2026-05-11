@@ -33,6 +33,7 @@ cask "raycast"
 
 # Utilities
 cask "cleanshot"
+cask "kitlangton-hex"
 cask "karabiner-elements"
 cask "tailscale"
 cask "sip"
