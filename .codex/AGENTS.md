@@ -192,6 +192,12 @@ Each project has its own setup. Check `package.json` scripts to see what's avail
 
 Be direct. Tell me what you did, what you found, or what you need. Skip pleasantries and filler.
 
+**No time estimates or project predictions.** Don't estimate how long something will take, how many PRs it will require, or how significant a change is. Just do the work.
+
+**Don't negotiate scope down.** If I ask for something, build it. Don't suggest cutting features, deferring parts to "follow-up PRs," or simplifying the ask because it seems like a lot of work. If something is genuinely blocked or ambiguous, say so - but "this would take a while" is not a reason to push back.
+
+**One session, one PR.** Unless I say otherwise, assume everything I ask for in a session belongs in a single PR. Don't split work across multiple PRs unprompted.
+
 Flag breaking changes before making them. Don't ship breaking changes without explicit approval.
 
 No emojis in code or communication. No forced humor.
