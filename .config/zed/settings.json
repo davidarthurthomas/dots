@@ -7,57 +7,68 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "cli_default_open_behavior": "existing_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "icon_theme": "Material Icon Theme",
+  "edit_predictions": {
+    "provider": "zed",
+  },
   "tab_size": 2,
   "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    },
     "OpenCode": {
+      "type": "custom",
       "command": "opencode",
-      "args": ["acp"]
-    }
+      "args": ["acp"],
+    },
   },
   "context_servers": {
-    "shadcn": {
-      "source": "custom",
-      "enabled": false,
-      "command": "npx",
-      "args": ["shadcn@latest", "mcp"]
-    },
     "mcp-server-linear": {
-      "source": "extension",
       "enabled": false,
       "settings": {
-        "linear_api_key": ""
-      }
+        "linear_api_key": "",
+      },
     },
     "mcp-server-firecrawl": {
-      "source": "extension",
       "enabled": true,
       "settings": {
-        "firecrawl_api_key": ""
-      }
-    }
+        "firecrawl_api_key": "",
+      },
+    },
   },
   "terminal": {
     "button": false,
-    "dock": "right"
+    "dock": "right",
   },
   "outline_panel": {
-    "button": false
+    "dock": "left",
+    "button": false,
   },
   "vim_mode": true,
   "agent": {
-    "always_allow_tool_actions": true,
+    "dock": "right",
+    "tool_permissions": {
+      "default": "allow",
+    },
     "inline_assistant_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-latest"
+      "model": "claude-sonnet-4-5-latest",
     },
     "default_profile": "write",
     "default_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-latest"
-    }
-  },
-  "features": {
-    "edit_prediction_provider": "zed"
+      "model": "claude-sonnet-4-5-latest",
+    },
   },
   "ui_font_family": "Geist",
   "ui_font_size": 16,
@@ -66,39 +77,48 @@
   "theme": {
     "mode": "system",
     "light": "Remark Light",
-    "dark": "Remark Dark"
+    "dark": "Remark Dark",
   },
-  "soft_wrap": "editor_width",
+  "soft_wrap": "preferred_line_length",
+  "preferred_line_length": 80,
   "lsp": {
     "vtsls": {
       "settings": {
         "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always",
+          },
           "inlayHints": {
             "parameterNames": {
               "enabled": "all",
-              "suppressWhenArgumentMatchesName": false
+              "suppressWhenArgumentMatchesName": false,
             },
             "parameterTypes": {
-              "enabled": true
+              "enabled": true,
             },
             "variableTypes": {
               "enabled": true,
-              "suppressWhenTypeMatchesName": true
+              "suppressWhenTypeMatchesName": true,
             },
             "propertyDeclarationTypes": {
-              "enabled": true
+              "enabled": true,
             },
             "functionLikeReturnTypes": {
-              "enabled": true
+              "enabled": true,
             },
             "enumMemberValues": {
-              "enabled": true
-            }
+              "enabled": true,
+            },
           },
-          "tsserver": { "maxTsServerMemory": 16184 }
+          "tsserver": { "maxTsServerMemory": 16184 },
         },
-        "javascript": { "tsserver": { "maxTsServerMemory": 16184 } }
-      }
-    }
-  }
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always",
+          },
+          "tsserver": { "maxTsServerMemory": 16184 },
+        },
+      },
+    },
+  },
 }
