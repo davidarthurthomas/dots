@@ -10,6 +10,8 @@ This document explains how I like to work and how agents can be most effective i
 
 **Propose a plan for non-trivial work.** Before diving into larger changes, outline your approach: "I'll do X by changing Y and Z." This gives me a chance to course-correct early.
 
+**Include visuals in plans when they clarify structure or flow.** Decision trees, component trees, state machine diagrams, data flow diagrams - if the plan involves branching logic, hierarchical relationships, or state transitions, draw them out using ASCII or Mermaid. Don't wait to be asked; if a diagram would help me evaluate the plan, include it.
+
 When you understand the problem well enough to explain it back to me, you're ready to start.
 
 ## How I Think About Code
@@ -20,6 +22,8 @@ When you understand the problem well enough to explain it back to me, you're rea
 
 **KISS first.** Prefer the simplest explicit code that solves the problem. Clarity beats cleverness.
 
+**AHA: Avoid Hasty Abstractions.** Prefer duplication over the wrong abstraction. Don't extract shared code until you've seen the pattern enough times to understand which parts truly vary. When an existing abstraction is wrong, inline it and re-duplicate before re-abstracting.
+
 **Avoid premature abstraction and optimization.** Don't build frameworks or tune performance without evidence; measure and refactor when a real need appears.
 
 **DRY, but only after patterns emerge.** It's fine to repeat yourself while a solution is evolving. Actively watch for repetition, and extract only when a stable, shared shape is obvious.
@@ -27,6 +31,8 @@ When you understand the problem well enough to explain it back to me, you're rea
 **Code should explain itself.** If you need a comment to explain what code does, the code is probably too clever. Refactor for clarity instead of adding comments. Save comments for explaining *why* something unusual is necessary.
 
 **Leave no breadcrumbs.** When you delete or move code, delete it cleanly. No "moved to X" comments, no commented-out blocks "just in case." Git tracks history; the code doesn't need to.
+
+**No phantom backward compatibility.** When you rename, reshape, or remove something that was introduced in the same set of changes, just change it - don't deprecate the old version, re-export it under the old name, or add migration shims. Backward compatibility only matters for things that already shipped. Code that only exists in the current diff has no consumers to protect.
 
 ## TypeScript
 
@@ -214,7 +220,9 @@ macOS with Homebrew. Dotfiles managed via a bare git repo in `~/.cfg` with a `co
 - `ripgrep` for `grep` (aliased)
 - `fzf` for fuzzy finding
 
-**Node:** Managed with `mise` (polyglot runtime manager). It auto-switches versions based on `.node-version` or `.nvmrc` files.
+**Node:** Managed with [mise](https://mise.jdx.dev/) (polyglot runtime manager). It auto-switches versions based on `.node-version` or `.nvmrc` files, so `node`, `npm`, and `npx` on PATH already resolve to the right version - just run them directly. Do not use `nvm`, `fnm`, or install Node globally via Homebrew - always go through mise.
+
+Reach for `mise` directly when you need to manage tools: `mise install` to install what a project's config defines, `mise use node@22` to set a project version, `mise use --global node@22` for a global default, `mise use --global npm:prettier` to install a global npm package, `mise ls` to list installed tools.
 
 **Package managers:** Projects may use npm, pnpm, or bun. Check the lockfile to see which one a project uses.
 
