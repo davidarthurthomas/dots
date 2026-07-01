@@ -1,13 +1,17 @@
+[settings]
+minimum_release_age = "7d"
+trusted_config_paths = [
+  "/Users/davidthomas/Developer/remark",
+  "/Users/davidthomas/conductor/workspaces/acorn/",
+  "/Users/davidthomas/conductor/workspaces/chestnut/",
+  "/Users/davidthomas/conductor/workspaces/remark-docs/",
+  "/Users/davidthomas/conductor/workspaces/kola/",
+]
+
 [tools]
-node = "22"
+node = "26"
+uv = "latest"
+pnpm = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@sentry/cli" = "latest"
-"npm:pnpm" = "latest"
-"npm:yarn" = "latest"
-"npm:sqlite-vec" = "latest"
-bun = "latest"
-"npm:@commitlint/cli" = "latest"
-"npm:@commitlint/config-conventional" = "latest"
 "npm:svgo" = "latest"
-"npm:browse" = "latest"
-"npm:@microsoft/rush" = "latest"
