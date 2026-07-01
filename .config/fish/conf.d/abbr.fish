@@ -10,6 +10,7 @@ alias lt='eza --tree --icons=always'
 alias grep=rg
 
 # Misc
+alias y=yarn
 alias python=python3
 alias mkdir='mkdir -p'
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
