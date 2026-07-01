@@ -112,3 +112,7 @@ Tests are how you change code without holding your breath. So don't ask whether 
 **Readable as a bug report.** When a test fails, it should read like a bug report: here's what you expected, here's what you got. Set things up, do the thing, check the result, in that order, with the check at the end where you can see it. No logic in the test. If there's a loop or an `if` deciding what to check, now you have to debug the test, and you didn't sign up for that.
 
 **Triggered by a behavior, not a class.** Write a test when there's a new behavior to pin down or a bug to reproduce, not one per class out of habit. A failing test before a fix does two jobs: it shows you the bug is real, and it tells you the moment it's gone. A test next to new code writes down the promise that code is making. Tests added later just to raise the coverage number tend to freeze the code the way it is, bugs and all.
+
+## Reminders
+
+Most codebases have existed for a long time with many contributors. Because of this, they are often full of many styles, riddled with debt, and inconsistent from one corner to the next. It may seem tempting to just blindly copy the existing patterns you find, but don't. My explicit instructions, these instructions, my skills, the project's instructions, and the project's skills are your primary directive. Follow them over whatever the surrounding code happens to do.
