@@ -1,170 +1,22 @@
-# Agent Guide
+## Environment
 
-This document explains how I like to work and how agents can be most effective in my repos. Read this when starting a task and refer back before major decisions.
+macOS with Homebrew. 
 
-## Before You Write Code
+Dotfiles managed via a bare git repo. See /Users/davidthomas/README.md. 
 
-**Do your research.** Read the official documentation for any libraries or APIs you'll be working with. Search the web for current best practices. Explore the existing codebase to understand the architecture and patterns already in use. Back up your decisions with reputable sources. A few minutes of research prevents hours of rework.
-
-**Ask clarifying questions when it matters.** If the task involves multiple files, architectural decisions, or has unclear scope, ask before you build. Quick questions like "Should this handle X?" or "I see two approaches - A or B?" are cheap compared to building the wrong thing. For small, obvious tasks, just proceed.
-
-**Propose a plan for non-trivial work.** Before diving into larger changes, outline your approach: "I'll do X by changing Y and Z." This gives me a chance to course-correct early.
-
-**Include visuals in plans when they clarify structure or flow.** Decision trees, component trees, state machine diagrams, data flow diagrams - if the plan involves branching logic, hierarchical relationships, or state transitions, draw them out using ASCII or Mermaid. Don't wait to be asked; if a diagram would help me evaluate the plan, include it.
-
-When you understand the problem well enough to explain it back to me, you're ready to start.
-
-## How I Think About Code
-
-**Do what's asked, nothing more.** If I ask for a bug fix, fix the bug. Don't refactor surrounding code, add features, or "improve" things that weren't mentioned. Over-engineering wastes time and introduces risk.
-
-**Fix root causes.** When something breaks, understand why before fixing it. Bandaid fixes create tech debt. If you're not sure what's causing a problem, say so - we can investigate together.
-
-**KISS first.** Prefer the simplest explicit code that solves the problem. Clarity beats cleverness.
-
-**AHA: Avoid Hasty Abstractions.** Prefer duplication over the wrong abstraction. Don't extract shared code until you've seen the pattern enough times to understand which parts truly vary. When an existing abstraction is wrong, inline it and re-duplicate before re-abstracting.
-
-**Avoid premature abstraction and optimization.** Don't build frameworks or tune performance without evidence; measure and refactor when a real need appears.
-
-**DRY, but only after patterns emerge.** It's fine to repeat yourself while a solution is evolving. Actively watch for repetition, and extract only when a stable, shared shape is obvious.
-
-**Code should explain itself.** If you need a comment to explain what code does, the code is probably too clever. Refactor for clarity instead of adding comments. Save comments for explaining *why* something unusual is necessary.
-
-**Leave no breadcrumbs.** When you delete or move code, delete it cleanly. No "moved to X" comments, no commented-out blocks "just in case." Git tracks history; the code doesn't need to.
-
-**No phantom backward compatibility.** When you rename, reshape, or remove something that was introduced in the same set of changes, just change it - don't deprecate the old version, re-export it under the old name, or add migration shims. Backward compatibility only matters for things that already shipped. Code that only exists in the current diff has no consumers to protect.
-
-## TypeScript
-
-I work primarily in TypeScript. These rules aren't negotiable:
-
-**Never use `any`.** If you don't know the type, figure it out. Use `unknown` if you truly need an escape hatch, then narrow it properly.
-
-**Avoid `as` type assertions.** Assertions lie to the compiler. If you need to assert, it usually means the types don't model the real shape of the data. Fix the types instead.
-
-**Validate runtime boundaries with Zod.** Parse external inputs (HTTP payloads, env vars, webhooks, JSON) with schemas. Use `.parse` for fail-fast flows and `.safeParse` for recoverable flows.
-
-**Use `interface` for object shapes; `type` for unions and advanced types.** Prefer `interface` for public object contracts. Use `type` for unions, primitives, tuples, mapped/conditional types, or when you want a closed type.
-
-**Derive types from values; validate with `satisfies`.** Prefer deriving types from real data and use `satisfies` to enforce shape without losing literal types.
-
-Example:
-```ts
-const statusLabels = {
-  open: "Open",
-  closed: "Closed",
-} satisfies Record<"open" | "closed", string>;
-```
-
-**Treat `Object.keys` as `string[]`.** Narrow keys before indexing (helper or type predicate) instead of assuming `keyof`.
-
-**Let return types be inferred by default.** Only annotate return types for multi-branch functions, library/public APIs, or when addressing known TypeScript performance issues.
-
-**Co-locate types, then lift when shared.** Define types next to the code that uses them, and only move to shared modules when multiple files need them. Use `export type` for type-only exports.
-
-**Keep a consistent class member order.** `static` fields -> `static` methods -> instance fields -> constructor -> public methods -> protected methods -> private methods. Keep getters/setters with their visibility group.
-
-**Use named exports.** Default exports make refactoring harder and autocomplete worse. Always use named exports.
-
-**Use async/await.** No callback pyramids, no `.then()` chains when async/await is cleaner.
-
-**No magic values.** Strings and numbers that appear in code should be named constants. This makes code searchable and intent clear.
-
-**Target modern browsers.** Don't add polyfills or workarounds for old browsers unless the project specifically requires it.
-
-Primary resource on TypeScript: Matt Pocock. If you're uncertain, look for his advice first.
-
-## Web Development
-
-Kent C. Dodds-inspired, framework-agnostic principles:
-
-**Start with the web platform.** Use HTTP, URLs, links, forms, and semantic HTML as the primary building blocks; frameworks should be thin layers on top of the platform.
-
-**Use JavaScript to enhance, not enable.** The core experience should work without JavaScript; add interactivity as progressive enhancement.
-
-**Treat URLs as first-class state.** Make key views and filters linkable, shareable, and navigable.
-
-**Prefer native navigation and forms.** Understand default browser behavior before preventing it; leverage built-in semantics.
-
-**Load data efficiently and cache with HTTP.** Use standard caching directives and prefetching to improve performance.
-
-Primary resource on web development: Kent C. Dodds. If you're uncertain, look for his advice first.
-
-## React
-
-**Prefer composition over configuration.** Use `children`, slots, and compound components for flexible UI; reserve prop-based APIs for simple, data-driven cases.
-
-Example:
-```tsx
-// Prefer composition
-<Card>
-  <CardHeader>Profile</CardHeader>
-  <CardBody><UserForm /></CardBody>
-</Card>
-
-// Over-configured
-<Card title="Profile" body={<UserForm />} />
-```
-
-**Avoid prop drilling with composition before context.** Structure layout components to accept elements so state stays close to where it's used; reach for context only when composition isn't enough.
-
-**Keep layout components thin.** Layout components should place content; the composing parent owns state and logic.
-
-**Own your components.** Treat UI components as app code you control. Copy and customize instead of wrapping opaque libraries.
-
-**Build on primitives.** Prefer accessible primitives (e.g., Radix) and utility-first styling (e.g., Tailwind) when available.
-
-Primary resources on React componentry: Kent C. Dodds and shadcn. If you're uncertain, look for their advice first.
-
-## Database Development
-
-**Protect data first.** Migrations must be reversible or have a rollback plan; never assume a data change is safe to redo.
-
-**Use constraints for integrity.** Prefer NOT NULL, UNIQUE, CHECK, and FK constraints to enforce invariants at the database layer.
-
-**Think in transactions.** Group related writes and keep transactions short to avoid locks and contention.
-
-**Design for query patterns.** Model tables around the reads/writes you actually need, not just the domain.
-
-**Avoid N+1.** Batch queries and prefetch related data when iterating.
-
-**Prefer keyset pagination.** OFFSET gets slower as data grows; paginate by a stable, indexed key when possible.
-
-**Avoid `SELECT *`.** Select only needed columns to reduce IO and improve cache efficiency.
-
-**Use EXPLAIN and keep queries index-friendly.** Verify query plans and avoid wrapping indexed columns in calculations; precompute or reshape data when needed.
-
-**Index intentionally.** Indexes are the primary lever for performance, but they have maintenance costs; aim for as many as needed and as few as possible.
-
-**Index foreign keys used in joins.** Foreign key constraints enforce integrity but do not create indexes in child tables; add them to speed joins.
-
-**Design indexes around queries.** Use composite indexes with the leftmost-prefix rule and consider covering indexes or deferred joins to avoid touching full rows.
-
-Primary resource on database development: Aaron Francis. If you're uncertain, look for his advice first.
-
-## Adding Dependencies
-
-Always ask me before adding a new dependency. Even small packages add maintenance burden, security surface, and bundle size.
-
-When you propose a dependency, come prepared: explain why it's needed, what alternatives exist, and why this one is the best choice. Prefer well-maintained packages with active communities.
+Node managed with [mise](https://mise.jdx.dev/).
 
 ## Git Workflow
 
 I care about clean, readable history. Each commit should tell a story.
 
-**Keep a clean history.** Commit as you go - each commit should be atomic and the code should pass project diagnostics at every point. I regularly rebase, squash, and reorder commits before merging, so don't rebase, amend, or otherwise rewrite history - that's my job.
+**Keep a clean history.** Commit as you go - each commit should be atomic and the code should pass project diagnostics at every point. You should rebase, squash, and reorder commits to keep a clean, readable history.
 
-**What you must never do:** Push, force push, rebase, amend, reset, delete branches, or discard changes. These are destructive or affect the remote - I handle them myself.
+**What you must never do:** Push, force push, reset, delete branches, or discard changes. These are destructive or affect the remote.
 
-**Write commit messages in present-tense imperative mood.** "Add login form" not "Added login form." This matches Git's built-in style (e.g., "Merge branch...").
-
-**No attribution.** Don't add "Co-Authored-By" or similar attribution lines to commits.
-
-**Keep PRs small.** Before starting work, think about how the changes could be broken into small, focused PRs. Each PR should do one thing well. This makes review easier and reduces risk.
+**Write commit messages in present-tense imperative mood.** "Add login form".
 
 **The `gh` CLI is available.** Use it to create and edit PRs, and always assign PRs to me.
-
-**If `gh pr create` fails,** respond with: (1) the GitHub URL to open the PR with the correct base branch, and (2) the title and description in code blocks so they're easy to copy.
 
 **PR titles.** Use present-tense imperative, no prefixes, and no trailing period. Keep it under ~60 characters and describe the primary change. Only include a Linear issue ID in the title if the branch name does not already include that ID.
 
@@ -179,80 +31,84 @@ This keeps the endpoint fast under load without changing behavior.
 - Keep the existing query shape to avoid widening the API response.
 ```
 
-**I prefer worktrees to checking out branches.** Worktrees let me keep multiple branches open in separate directories without stashing or losing context. My shell has helper functions:
-
-- `wta <branch>` - Create new worktree with new branch
-- `wtc <branch>` - Check out existing branch as worktree
-- `wtl` - List worktrees
-- `wts` - Switch worktree (interactive with fzf)
-- `wtd <branch>` - Delete worktree and branch
-- `wtp` - Prune stale worktrees
-
-Worktrees are created as sibling directories named `<repo>--<branch>`.
-
-## Tooling
-
-Each project has its own setup. Check `package.json` scripts to see what's available. Use whatever package manager, linter, and formatter the project has configured - don't assume.
-
 ## Communication
 
 Be direct. Tell me what you did, what you found, or what you need. Skip pleasantries and filler.
 
 **No time estimates or project predictions.** Don't estimate how long something will take, how many PRs it will require, or how significant a change is. Just do the work.
 
-**Don't negotiate scope down.** If I ask for something, build it. Don't suggest cutting features, deferring parts to "follow-up PRs," or simplifying the ask because it seems like a lot of work. If something is genuinely blocked or ambiguous, say so - but "this would take a while" is not a reason to push back.
+**Don't negotiate scope down.** If I ask for something, build it. Don't suggest cutting features, deferring parts to "follow-up PRs," or simplifying the ask because it seems like a lot of work. If something is blocked or ambiguous, say so - but "this would take a while" is not a reason to push back.
 
-**One session, one PR.** Unless I say otherwise, assume everything I ask for in a session belongs in a single PR. Don't split work across multiple PRs unprompted.
+**One session, one PR.** Unless I say otherwise, assume everything I ask for in a session belongs in a single PR.
 
 Flag breaking changes before making them. Don't ship breaking changes without explicit approval.
 
-No emojis in code or communication. No forced humor.
-
-## Environment
-
-macOS with Homebrew. Dotfiles managed via a bare git repo in `~/.cfg` with a `config` alias that works like git.
-
-**Editor:** Zed
-
-**Shell:** fish with modern CLI replacements:
-- `eza` for `ls` (aliased)
-- `zoxide` for `cd` (via `zoxide init fish --cmd cd`)
-- `ripgrep` for `grep` (aliased)
-- `fzf` for fuzzy finding
-
-**Node:** Managed with [mise](https://mise.jdx.dev/) (polyglot runtime manager). It auto-switches versions based on `.node-version` or `.nvmrc` files, so `node`, `npm`, and `npx` on PATH already resolve to the right version - just run them directly. Do not use `nvm`, `fnm`, or install Node globally via Homebrew - always go through mise.
-
-Reach for `mise` directly when you need to manage tools: `mise install` to install what a project's config defines, `mise use node@22` to set a project version, `mise use --global node@22` for a global default, `mise use --global npm:prettier` to install a global npm package, `mise ls` to list installed tools.
-
-**Package managers:** Projects may use npm, pnpm, or bun. Check the lockfile to see which one a project uses.
-
-## qmd
-
-[qmd](https://github.com/tobi/qmd) is available globally for searching markdown files. Use it when you need to search across notes, documentation, or knowledge bases.
-
-```bash
-# List configured collections
-qmd collection list
-
-# Search
-qmd search "query"           # Keyword search (BM25)
-qmd vsearch "query"          # Semantic search (vector)
-qmd query "query"            # Hybrid search with reranking
-
-# Read specific files from results
-qmd get <uri>
-
-# Add a new collection
-qmd collection add /path/to/docs --name name
-qmd embed                    # Generate embeddings after adding
-```
-
-Use `qmd search` for exact keyword matches, `qmd vsearch` for meaning-based queries, and `qmd query` for the best results (combines both with LLM reranking, but is slower).
-
-## Before You Hand Off
+### Before You Hand Off
 
 When you finish a task:
 
 1. Run the project's diagnostics (typecheck, lint, tests - depends on the project) to make sure the code passes
 2. Summarize what changed and reference the files
 3. Call out any TODOs or follow-up work I should know about
+
+## Approach
+
+**Keep it simple.** Favor plain, readable code that says exactly what it does — `if (shouldDoSomething) doSomething();`. Prefer the most direct solution that solves the problem in front of you, and don't build for requirements that don't exist yet.
+
+**Separation of concerns.** Keep distinct responsibilities in distinct units.
+
+**Avoid hasty abstractions.** Prefer duplication on the first pass. Wait until a pattern has repeated enough that its shape is obvious before extracting it.
+
+**Functional core, imperative shell.** Keep decision-making logic pure and free of side effects. Push I/O, mutation, and other effects out to a thin shell that wraps the core.
+
+**Values at boundaries.** Have components communicate through plain data and value objects rather than sharing mutable state.
+
+**Leave the code better than you found it.** Your code will be copied and imitated by other engineers and AI agents, so set the standard you want repeated.
+
+**Fight entropy debt.** Refactor surrounding code so the whole reads as if written with your change in mind — rename what's now misleading, move logic that now lives in the wrong place. Don't just graft new behavior onto a system built for outdated requirements.
+
+## Documentation
+
+Code is mostly self-documenting, and we should always strive to write code that is self-documenting. Use clear names and small, well-factored functions and you won't need comments. Do not write comments that restate what the code already says. Reserve comments for the *why* the code cannot express: non-obvious constraints, tradeoffs, or context.
+
+**No breadcrumbs.** Write comments about the code as it is now. When you remove code, do not leave a comment explaining why. When you edit code, do not leave a comment referencing a previous implementation. Never leave a comment explaining where a field or function is used.
+
+**No comments about future work.** Comments describe the code as it is, not what it will become. Do not write comments that anticipate planned changes, unbuilt features, or work happening elsewhere — e.g. "this will also handle the cancelled state once that flow exists." A reader cannot tell whether such a comment is stale, and it ages into a lie the moment the plan shifts. 
+
+The one exception is a concrete, actionable task on the current code: mark it with a `TODO:` comment. A `TODO:` is appropriate only when all of these hold: it names a specific change to *this* code, it is something a reader could act on now, and the code is correct as written without it. It is not a place to narrate roadmap, speculate about future design, or excuse a half-built abstraction.
+
+**Pick one of two registers for a comment.** Either a terse fragment labeling one value or line ("5 minutes" on a millisecond literal, "exclude events before the cutoff") or a plain-English explanation in simple, full sentences. Nothing in between. Never use jargon or AI-isms like em dashes.
+
+**Document as close to the code as possible.** When a comment is warranted, put it next to the line it explains, not in a summary somewhere above. Do not describe a method's full behavior in its JSDoc/docstring and then leave the implementation uncommented — that splits the explanation from the code and lets the two drift apart. Use the doc block for the contract callers need (purpose, params, returns, invariants); explain the *why* of a specific step with an inline comment on that step.
+
+**Show a concrete example when the shape of a value is not obvious from the code.** When you build a string with interpolation, add an inline comment showing a sample of the result, so a reader sees the final shape without running it in their head. The same applies to anything where the literal output matters more than the expression that produces it:
+
+- **String interpolation / formatting.** `` `${user.id}-${slug}` `` → `// "4821-acme-co"`
+- **Regular expressions.** Show one string that matches and, if the boundary is subtle, one that doesn't.
+- **Date, time, and number format strings.** Show what the format renders, e.g. `"yyyy-MM-dd"` → `// 2026-06-30`.
+- **Parsers and non-trivial transforms.** Show a small input and its corresponding output, so the mapping is legible at a glance.
+- **Encoded or packed values.** Bitfields, base64, URL params, and similar — show a decoded example.
+
+Keep the example terse and real (a value the code would actually produce), and put it on the line it illustrates.
+
+## Style
+
+**Use consistent terminology.** Pick one term for each concept and use it everywhere — in names, comments, documentation, and conversation. Do not reach for synonyms or close approximations; varied wording for the same thing makes a reader wonder whether you mean something different.
+
+## Testing
+
+Tests are how you change code without holding your breath. So don't ask whether a test passes. Ask whether it's a good test, and keep a list of what you want from one. Hold each test up to these. If it misses one, that's the thing to fix.
+
+**Structure-insensitive.** A good test doesn't care how you wrote the code, only what the code does. You should be able to tear out the insides of a function, put them back a different way, and if the behavior is the same, the test stays green. If you rename a private helper and a test breaks, that test was watching your typing, not your behavior. Test what a caller can see: what goes in, what comes out, what changes in the world.
+
+**Behavioral and specific.** Two things. If the behavior changes, some test should go red, or the test isn't earning its keep. And when it goes red, you want to know what broke without opening the file. The name should tell you. `returns the cached value on the second call` tells you. `test cache 2` tells you nothing. Keep each test to one claim, so a failure means one thing.
+
+**Fast and deterministic.** If the suite is slow, you stop running it, and a test you don't run is worthless. If a test fails at random, you learn to shrug at red, and now green means nothing either. Both are worse than no test, because they cost you trust. Same inputs, same answer, whatever order you run things in. How fast and how steady a test is comes down to how much it touches.
+
+**Rooted in the functional core.** Split a program in two. In the middle is the logic that makes decisions: pure calculation, no talking to the outside world. Around it is a thin layer that talks to the database, the network, the screen. Gary Bernhardt calls it a functional core in an imperative shell. The core is a joy to test. Hand it values, check the values it hands back, cover every edge and every failure. It needs nothing else to run, so the tests are fast. Keep the shell thin and a few end-to-end tests will cover it. Don't write a pile of little tests for plumbing just to move a number.
+
+**Sparing with mocks.** Reach for real objects first. Most of the time, once you've split the core from the shell, you don't need a mock at all, because the core is just values in and values out. When you do need one, put it at an edge you own: the clock, the network, the disk. Don't mock someone else's library from the inside. You don't really know how it behaves, so a mock of it is just your guess wearing a costume. And if a test is mostly mocks, you're testing your guesses, not your code. Some people use mocks the other way, to drive the design. That works for them. It's not how you do it here, and know that's a choice, not a law.
+
+**Readable as a bug report.** When a test fails, it should read like a bug report: here's what you expected, here's what you got. Set things up, do the thing, check the result, in that order, with the check at the end where you can see it. No logic in the test. If there's a loop or an `if` deciding what to check, now you have to debug the test, and you didn't sign up for that.
+
+**Triggered by a behavior, not a class.** Write a test when there's a new behavior to pin down or a bug to reproduce, not one per class out of habit. A failing test before a fix does two jobs: it shows you the bug is real, and it tells you the moment it's gone. A test next to new code writes down the promise that code is making. Tests added later just to raise the coverage number tend to freeze the code the way it is, bugs and all.
