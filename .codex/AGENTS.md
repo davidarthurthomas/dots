@@ -77,6 +77,16 @@ Code is mostly self-documenting, and we should always strive to write code that 
 
 The one exception is a concrete, actionable task on the current code: mark it with a `TODO:` comment. A `TODO:` is appropriate only when all of these hold: it names a specific change to *this* code, it is something a reader could act on now, and the code is correct as written without it. It is not a place to narrate roadmap, speculate about future design, or excuse a half-built abstraction.
 
+**No banner comments.** Don't decorate code with block comments that draw section dividers or ASCII rules, like:
+
+```
+// ---------------------------------------------------------------------------
+// Notes
+// ---------------------------------------------------------------------------
+```
+
+If a file needs that kind of signposting to be navigable, split it into multiple files.
+
 **Pick one of two registers for a comment.** Either a terse fragment labeling one value or line ("5 minutes" on a millisecond literal, "exclude events before the cutoff") or a plain-English explanation in simple, full sentences. Nothing in between. Never use jargon or AI-isms like em dashes.
 
 **Document as close to the code as possible.** When a comment is warranted, put it next to the line it explains, not in a summary somewhere above. Do not describe a method's full behavior in its JSDoc/docstring and then leave the implementation uncommented — that splits the explanation from the code and lets the two drift apart. Use the doc block for the contract callers need (purpose, params, returns, invariants); explain the *why* of a specific step with an inline comment on that step.
