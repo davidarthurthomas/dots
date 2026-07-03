@@ -71,6 +71,8 @@ When you finish a task:
 
 Code is mostly self-documenting, and we should always strive to write code that is self-documenting. Use clear names and small, well-factored functions and you won't need comments. Do not write comments that restate what the code already says. Reserve comments for the *why* the code cannot express: non-obvious constraints, tradeoffs, or context.
 
+**Avoid comments that will quickly drift out of date.** Before writing a comment, ask whether it can become wrong without the line next to it changing. If it can, don't write it. This rules out counts ("the three callers of this function"), lists of usage sites, descriptions of code that lives elsewhere, and anything comparing to "the old way" or "the new way" — all of these go stale silently, and a stale comment is worse than none.
+
 **No breadcrumbs.** Write comments about the code as it is now. When you remove code, do not leave a comment explaining why. When you edit code, do not leave a comment referencing a previous implementation. Never leave a comment explaining where a field or function is used.
 
 **No comments about future work.** Comments describe the code as it is, not what it will become. Do not write comments that anticipate planned changes, unbuilt features, or work happening elsewhere — e.g. "this will also handle the cancelled state once that flow exists." A reader cannot tell whether such a comment is stale, and it ages into a lie the moment the plan shifts. 
@@ -105,6 +107,22 @@ Keep the example terse and real (a value the code would actually produce), and p
 
 **Use consistent terminology.** Pick one term for each concept and use it everywhere — in names, comments, documentation, and conversation. Do not reach for synonyms or close approximations; varied wording for the same thing makes a reader wonder whether you mean something different.
 
+## Naming
+
+Names do most of the documenting in a codebase, so choose them deliberately. The full treatment, with sources, lives in the `naming` skill; these rules carry the most weight:
+
+**Judge the name at the call site.** A name is declared once and read at every call site, so write out a realistic use and read it as a sentence. Every word must tell the reader something that site doesn't already; drop words that repeat type information (`views.remove(cancelButton)`, not `views.removeElement(cancelButton)`).
+
+**Name the role and the intent.** Name a parameter for its part in this function (`supplier` over `widgetFactory`); name a method for why callers care (`beginTrackingOrder()` over `saveOrderAndRefreshScreen()`). The weaker the type (string, int, dict), the harder its name must work.
+
+**Be precise.** `data`, `info`, `result`, `item`, `process`, `handle`, and the `-Manager`/`-Helper`/`-Util` suffixes admit the concept was never identified. Draw names from the domain's vocabulary, one term per concept (see Style), and prefer one rich word to a compound: `calendar`, not `appointmentList`.
+
+**Length scales with scope.** The farther a name's uses sit from its declaration, the longer it should be: `i` is fine in a three-line loop, and a module-level name earns more words. Spell words out; abbreviate only what a web search would resolve (`id`, `max`).
+
+**Grammar carries semantics.** A function with side effects is an imperative verb phrase (`x.sort()`); a pure one is a noun phrase or participle (`x.sorted()`). A boolean reads as a positive assertion: `isEmpty`, `cursorVisible`, never `notSuccessful`.
+
+**Hard to name is design feedback.** When no precise name fits, the code has too many responsibilities or the abstraction is wrong; fix the design and the name follows. Until understanding arrives, an honest awkward name beats a plausible false one, and every new insight is a rename.
+
 ## Testing
 
 Tests are how you change code without holding your breath. So don't ask whether a test passes. Ask whether it's a good test, and keep a list of what you want from one. Hold each test up to these. If it misses one, that's the thing to fix.
@@ -125,4 +143,4 @@ Tests are how you change code without holding your breath. So don't ask whether 
 
 ## Reminders
 
-Most codebases have existed for a long time with many contributors. Because of this, they are often full of many styles, riddled with debt, and inconsistent from one corner to the next. It may seem tempting to just blindly copy the existing patterns you find, but don't. My explicit instructions, these instructions, my skills, the project's instructions, and the project's skills are your primary directive. Follow them over whatever the surrounding code happens to do.
+IMPORTANT: Most codebases have existed for a long time with many contributors. Because of this, they are often full of many styles, riddled with debt, and inconsistent from one corner to the next. It may seem tempting to just blindly copy the existing patterns you find, but don't. My explicit instructions, these instructions, my skills, the project's instructions, and the project's skills are your primary directive. Follow them over whatever the surrounding code happens to do.
