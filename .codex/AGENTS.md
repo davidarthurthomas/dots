@@ -69,39 +69,21 @@ When you finish a task:
 
 ## Documentation
 
-Code is mostly self-documenting, and we should always strive to write code that is self-documenting. Use clear names and small, well-factored functions and you won't need comments. Do not write comments that restate what the code already says. Reserve comments for the *why* the code cannot express: non-obvious constraints, tradeoffs, or context.
+Code is mostly self-documenting. Use clear names and small, well-factored functions and you won't need comments. Do not write comments that restate what the code already says. Reserve comments for the *why* the code cannot express: non-obvious constraints, tradeoffs, or context. The full treatment, with sources, lives in the `documentation` skill.
 
-**Avoid comments that will quickly drift out of date.** Before writing a comment, ask whether it can become wrong without the line next to it changing. If it can, don't write it. This rules out counts ("the three callers of this function"), lists of usage sites, descriptions of code that lives elsewhere, and anything comparing to "the old way" or "the new way" — all of these go stale silently, and a stale comment is worse than none.
-
-**No breadcrumbs.** Write comments about the code as it is now. When you remove code, do not leave a comment explaining why. When you edit code, do not leave a comment referencing a previous implementation. Never leave a comment explaining where a field or function is used.
-
-**No comments about future work.** Comments describe the code as it is, not what it will become. Do not write comments that anticipate planned changes, unbuilt features, or work happening elsewhere — e.g. "this will also handle the cancelled state once that flow exists." A reader cannot tell whether such a comment is stale, and it ages into a lie the moment the plan shifts. 
-
-The one exception is a concrete, actionable task on the current code: mark it with a `TODO:` comment. A `TODO:` is appropriate only when all of these hold: it names a specific change to *this* code, it is something a reader could act on now, and the code is correct as written without it. It is not a place to narrate roadmap, speculate about future design, or excuse a half-built abstraction.
-
-**No banner comments.** Don't decorate code with block comments that draw section dividers or ASCII rules, like:
-
-```
-// ---------------------------------------------------------------------------
-// Notes
-// ---------------------------------------------------------------------------
-```
-
-If a file needs that kind of signposting to be navigable, split it into multiple files.
+**Avoid comments that will quickly drift out of date.** Before writing a comment, ask whether it can become wrong without the line next to it changing. If it can, don't write it. This rules out counts, lists of usage sites, descriptions of code that lives elsewhere, breadcrumbs about removed or edited code, and comments about future work. The one exception is a concrete, actionable task on the current code, marked with a `TODO:` comment.
 
 **Pick one of two registers for a comment.** Either a terse fragment labeling one value or line ("5 minutes" on a millisecond literal, "exclude events before the cutoff") or a plain-English explanation in simple, full sentences. Nothing in between. Never use jargon or AI-isms like em dashes.
 
-**Document as close to the code as possible.** When a comment is warranted, put it next to the line it explains, not in a summary somewhere above. Do not describe a method's full behavior in its JSDoc/docstring and then leave the implementation uncommented — that splits the explanation from the code and lets the two drift apart. Use the doc block for the contract callers need (purpose, params, returns, invariants); explain the *why* of a specific step with an inline comment on that step.
+**No banner comments.** Don't decorate code with block comments that draw section dividers or ASCII rules. If a file needs that kind of signposting to be navigable, split it into multiple files.
 
-**Show a concrete example when the shape of a value is not obvious from the code.** When you build a string with interpolation, add an inline comment showing a sample of the result, so a reader sees the final shape without running it in their head. The same applies to anything where the literal output matters more than the expression that produces it:
+**Document as close to the code as possible.** Put a comment next to the line it explains, not in a summary somewhere above. Use the doc block for the contract callers need (purpose, params, returns, invariants); explain the *why* of a specific step with an inline comment on that step.
 
-- **String interpolation / formatting.** `` `${user.id}-${slug}` `` → `// "4821-acme-co"`
-- **Regular expressions.** Show one string that matches and, if the boundary is subtle, one that doesn't.
-- **Date, time, and number format strings.** Show what the format renders, e.g. `"yyyy-MM-dd"` → `// 2026-06-30`.
-- **Parsers and non-trivial transforms.** Show a small input and its corresponding output, so the mapping is legible at a glance.
-- **Encoded or packed values.** Bitfields, base64, URL params, and similar — show a decoded example.
+**Show a concrete example when the shape of a value is not obvious from the code.** `` `${user.id}-${slug}` `` → `// "4821-acme-co"`. The same applies to regular expressions, format strings, parsers, and encoded values. Keep the example terse and real, and put it on the line it illustrates.
 
-Keep the example terse and real (a value the code would actually produce), and put it on the line it illustrates.
+**Write the comment first.** Comments are a design tool. An interface comment should let a caller use the thing without reading its body, and one you can't write simply and completely is design feedback, like a hard-to-pick name (see Naming).
+
+**Write docs in one mode at a time.** A document teaches (tutorial), directs a real task (how-to), describes the machinery (reference), or deepens understanding (explanation); a document that mixes modes fails each reader it tries to serve. Reference stays austere and mirrors the code's structure; rationale and alternatives live in explanation.
 
 ## Style
 
