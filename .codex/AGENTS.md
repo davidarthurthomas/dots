@@ -127,4 +127,4 @@ Tests are how you change code without holding your breath. So don't ask whether 
 
 ## Reminders
 
-IMPORTANT: Most codebases have existed for a long time with many contributors. Because of this, they are often full of many styles, riddled with debt, and inconsistent from one corner to the next. It may seem tempting to just blindly copy the existing patterns you find, but don't. My explicit instructions, these instructions, my skills, the project's instructions, and the project's skills are your primary directive. Follow them over whatever the surrounding code happens to do.
+IMPORTANT: Most codebases have existed for a long time with many contributors. Because of this, they are often full of many styles, riddled with debt, and inconsistent from one corner to the next. It may seem tempting to just blindly copy the existing patterns you find, but don't. Your primary directive is my instructions, in this priority order: my in-session instructions first, then these global instructions and my skills, then the project's instructions and skills. Follow them over whatever the surrounding code happens to do.
