@@ -4,13 +4,13 @@ From the blog posts "Practical React Query," "Thinking in React Query," "React Q
 
 ## Server state is borrowed, not owned
 
-Data fetched from a server isn't state the frontend owns — it's a snapshot of someone else's data.
+Data fetched from a server isn't state the frontend owns; it's a snapshot of someone else's data.
 
 > Because React Query manages async state (or, in terms of data fetching: server state), it assumes that the frontend application doesn't "own" the data.
 
 > "server state", we only see a snapshot in time of when we fetched it. It can get out of date, because we are not the only owner of that state. The backend, probably our database owns it. We have just borrowed it to display that snapshot.
 
-Which is why it's framed as a state manager, not a fetching library — once that's the frame, questions like "how do I set a `baseURL`" dissolve:
+Which is why it's framed as a state manager, not a fetching library; once that's the frame, questions like "how do I set a `baseURL`" dissolve:
 
 > React Query is an async state manager. It can manage any form of asynchronous state - it is happy as long as it gets a Promise.
 
@@ -18,7 +18,7 @@ Which is why it's framed as a state manager, not a fetching library — once tha
 
 ## Erring toward freshness over minimizing requests
 
-Because the frontend doesn't own the data, defaults favor updating too often over too rarely, and `staleTime` — not `gcTime` — is the knob that matters day to day.
+Because the frontend doesn't own the data, defaults favor updating too often over too rarely, and `staleTime` (not `gcTime`) is the knob that matters day to day.
 
 > React Query provides the means to synchronize our view with the actual data owner - the backend. And by doing so, it errs on the side of updating often rather than not updating often enough.
 
@@ -28,7 +28,7 @@ Because the frontend doesn't own the data, defaults favor updating too often ove
 
 ## Query keys as dependency array, and not syncing state elsewhere
 
-Parameters used inside `queryFn` belong in the query key, the same discipline `useEffect` applies to its dependency array — this is what caches entries separately and drives automatic refetches.
+Parameters used inside `queryFn` belong in the query key, the same discipline `useEffect` applies to its dependency array; this is what caches entries separately and drives automatic refetches.
 
 > We should treat parameters as dependencies... put them into the `queryKey`. This ensures... entries are cached separately depending on their input... It also enables automatic refetches when [the key changes].
 
@@ -48,7 +48,7 @@ Most of the "over-useState" problem is derived values masquerading as state.
 
 ## useEffect syncs with the outside world, not with other state
 
-`useEffect` exists to synchronize React with something external — the DOM, a subscription, a server — not to keep one piece of React state in lockstep with another.
+`useEffect` exists to synchronize React with something external (the DOM, a subscription, a server), not to keep one piece of React state in lockstep with another.
 
 > It should be used to sync your state _with something outside of React_. Utilizing useEffect to sync _two react states_ is rarely right.
 
@@ -80,7 +80,7 @@ The functional updater reads the previous value instead of closing over a stale 
 
 ## Memoization is an uphill battle
 
-`memo` compares each prop with `Object.is` — brittle against any prop that isn't a primitive. A single inline object, array, or function prop silently defeats it, and the break is invisible to whoever adds that prop later.
+`memo` compares each prop with `Object.is`, brittle against any prop that isn't a primitive. A single inline object, array, or function prop silently defeats it, and the break is invisible to whoever adds that prop later.
 
 > When a component is memoized, React will compare each prop with Object.is. If they haven't changed, re-rending can be skipped.
 

@@ -4,7 +4,7 @@ From "Why React Re-Renders" and "Common Beginner Mistakes with React," both publ
 
 ## State is the only trigger
 
-Every re-render traces back to a state change — there's no other entry point.
+Every re-render traces back to a state change; there's no other entry point.
 
 > Every re-render in React starts with a state change. It's the only "trigger" in React for a component to re-render.
 
@@ -34,7 +34,7 @@ The Profiler tab in devtools answers "why did this render" directly, instead of 
 
 ## State identity, not content, is what React checks
 
-React compares a state variable's own identity between renders — mutating in place produces no change React can detect.
+React compares a state variable's own identity between renders, so mutating in place produces no change React can detect.
 
 > React relies on a state variable's identity to tell when the state has changed. When we push an item into an array, we aren't changing that array's identity, and so React can't tell that the value has changed.
 
@@ -52,6 +52,6 @@ A `key` is how React tells one list item from another across renders; generating
 
 ## State updates are scheduled, not synchronous
 
-Calling a setter doesn't mutate a variable in place — it queues an update for a future render, so reading the "same" variable right after won't reflect it yet.
+Calling a setter doesn't mutate a variable in place; it queues an update for a future render, so reading the "same" variable right after won't reflect it yet.
 
 > When we call `setCount`, we aren't re-assigning a variable. We're scheduling an update.

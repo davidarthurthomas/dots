@@ -4,7 +4,7 @@ From "A (Mostly) Complete Guide to React Rendering Behavior," published on blog.
 
 ## What rendering means
 
-Rendering is not the same as producing visible output — it's the process of asking components what they want the UI to look like right now.
+Rendering is not the same as producing visible output; it's the process of asking components what they want the UI to look like right now.
 
 > Rendering is the process of React asking your components to describe what they want their section of the UI to look like, now, based on the current combination of props and state.
 
@@ -16,7 +16,7 @@ React splits its work into calculating what changed, then applying it.
 
 > The "Commit phase" is the process of applying those changes to the DOM
 
-A component can render without anything visible happening as a result — rendering and updating the DOM are different events.
+A component can render without anything visible happening as a result; rendering and updating the DOM are different events.
 
 > rendering is not the same thing as updating the DOM, and a component may be rendered without any visible changes happening as a result.
 
@@ -72,7 +72,7 @@ The diffing step that decides what the commit phase needs to apply has its own n
 
 ## State is a snapshot, closed over per render
 
-Event handlers only see the values that existed when they were defined — state variables aren't live references, they're frozen per render.
+Event handlers only see the values that existed when they were defined; state variables aren't live references, they're frozen per render.
 
 > The `handleClick` function is a "closure" - it can only see the values of variables as they existed when the function was defined
 

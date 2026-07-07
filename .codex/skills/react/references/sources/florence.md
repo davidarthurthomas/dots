@@ -8,7 +8,7 @@ Remix and React Router treat the URL itself as the state container for anything 
 
 > The primary criterion when choosing among these tools is whether you want the URL to change or not
 
-The URL should change when an action moves the user to a new context — creating a record and sending them to its page, or deleting one and returning them to the list. It shouldn't change for small, in-place edits:
+The URL should change when an action moves the user to a new context: creating a record and sending them to its page, or deleting one and returning them to the list. It shouldn't change for small, in-place edits:
 
 > Updating a Single Field: Maybe a user wants to change the name of an item in a list or update a specific property of a record. This action is minor and doesn't necessitate a new page or URL.
 
@@ -36,7 +36,7 @@ Florence's recurring argument is that a form should work before JavaScript exist
 
 > Whether JavaScript has loaded or not doesn't matter, this button will add the product to the cart.
 
-The docs justify this on more than resilience grounds — performance and plain simplicity are the other two legs:
+The docs justify this on more than resilience grounds; performance and plain simplicity are the other two legs:
 
 > While it's easy to think that only 5% of your users have slow connections, the reality is that 100% of your users have slow connections 5% of the time.
 
@@ -66,11 +66,11 @@ His fix, carried from React Router into Remix's loaders, is to separate deciding
 
 > By initiating your fetches at nested route boundaries the request waterfall chain is flattened and 3x faster.
 
-The same logic extends to interruption and concurrency: because the router — not a component — owns the fetch, it can also own cancellation when the user navigates again before a request resolves.
+The same logic extends to interruption and concurrency: because the router, not a component, owns the fetch, it can also own cancellation when the user navigates again before a request resolves.
 
 > When a link is clicked within a React Router application, it initiates fetch requests for each loader tied to the target URL. If another navigation interrupts the initial navigation, React Router cancels the previous fetch requests, ensuring that only the latest requests proceed.
 
-In the Reactathon talk (paraphrased, no transcript available), Florence describes this as reducing a component's job from initiator, reader, and fallback all at once down to just reading and falling back — because the server already knows the URL before the component ever renders, it can start the fetch there instead of waiting on the client.
+In the Reactathon talk (paraphrased, no transcript available), Florence describes this as reducing a component's job from initiator, reader, and fallback all at once down to just reading and falling back: because the server already knows the URL before the component ever renders, it can start the fetch there instead of waiting on the client.
 
 ## Use the platform
 
@@ -86,6 +86,6 @@ He makes the same point about protocols, not just runtimes, in the Syntax.fm int
 
 > We can actually just use these standard web APIs for our network interface, and if we build Remix to strictly operate on those, nothing from Node...then we can deploy this everywhere.
 
-And the payoff isn't novelty — it's an old, well-understood model with a modern implementation:
+And the payoff isn't novelty; it's an old, well-understood model with a modern implementation:
 
 > It gave this really old school PHP development workflow, but with a modern implementation where it was just all fetches in the background, you're not redownloading assets.

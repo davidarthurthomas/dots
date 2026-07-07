@@ -4,7 +4,7 @@ From the essays "A Complete Guide to useEffect," "Writing Resilient Components" 
 
 ## Effects belong to the render that created them
 
-Each render has its own props, state, and event handlers — and its own effect, closed over that render's values. Nothing is watching or mutating a shared variable across renders.
+Each render has its own props, state, and event handlers, and its own effect, closed over that render's values. Nothing is watching or mutating a shared variable across renders.
 
 > In this example, `count` is just a number. It's not a magic "data binding", a "watcher", a "proxy", or anything else.
 
@@ -14,7 +14,7 @@ Each render has its own props, state, and event handlers — and its own effect,
 
 > It's not the `count` variable that somehow changes inside an "unchanging" effect. It's the *effect function itself* that's different on every render.
 
-The dependency array is not a knob for tuning when an effect fires — it's a truthful declaration of what the effect reads.
+The dependency array is not a knob for tuning when an effect fires; it's a truthful declaration of what the effect reads.
 
 > **_all_ values from inside your component that are used by the effect _must_ be there**
 
@@ -28,7 +28,7 @@ The dependency array is not a knob for tuning when an effect fires — it's a tr
 
 > Side effects become a part of the React data flow.
 
-Functions are not exempt from this — wrapped correctly (`useCallback`), they participate in the same data flow as any other value an effect depends on.
+Functions are not exempt from this. Wrapped correctly (`useCallback`), they participate in the same data flow as any other value an effect depends on.
 
 > **With `useCallback`, functions can fully participate in the data flow.**
 
@@ -66,7 +66,7 @@ A rendering-twice thought experiment surfaces state that's accidentally global:
 
 ## Memoization comes last
 
-Before reaching for `memo`/`useMemo`, restructure the tree so the parts that change are separated from the parts that don't — moving state down, and lifting content up as `children`.
+Before reaching for `memo`/`useMemo`, restructure the tree so the parts that change are separated from the parts that don't: move state down, and lift content up as `children`.
 
 > Before you apply optimizations like `memo` or `useMemo`, it might make sense to look if you can split the parts that change from the parts that don't change.
 
@@ -98,13 +98,13 @@ React's job is to reconcile that description against the real ("host") tree, reu
 
 > If an element type in the same place in the tree "matches up" between renders, React reuses the host instance.
 
-Render must be pure with respect to props — but React leans on a weaker guarantee than mathematical purity: calling a component function twice for the same input must be safe.
+Render must be pure with respect to props, but React leans on a weaker guarantee than mathematical purity: calling a component function twice for the same input must be safe.
 
 > React components are assumed to be pure with respect to their props.
 
 > *Idempotence* is more important to React than purity.
 
-Local state is a feature of the position in the tree, not of the component definition — which is why hooks must be called unconditionally in the same order.
+Local state is a feature of the position in the tree, not of the component definition, which is why hooks must be called unconditionally in the same order.
 
 > Local state tied to the position in the tree is one of these features.
 

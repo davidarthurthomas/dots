@@ -16,7 +16,7 @@ Build the non-interactive render before wiring up any state:
 
 > Building a static version requires a lot of typing and no thinking, but adding interactivity requires a lot of thinking and not a lot of typing.
 
-State is defined by what it excludes, not what it includes — three questions filter a candidate value out of state entirely:
+State is defined by what it excludes, not what it includes; three questions filter a candidate value out of state entirely:
 
 > Think of state as the minimal set of changing data that your app needs to remember.
 
@@ -46,7 +46,7 @@ The framing that governs everything else: an Effect is for stepping outside Reac
 
 > This includes browser APIs, third-party widgets, network, and so on. If your Effect only adjusts some state based on other state, you might not need an Effect.
 
-Rendering itself must stay pure — an Effect exists precisely because DOM mutation can't happen during render:
+Rendering itself must stay pure; an Effect exists precisely because DOM mutation can't happen during render:
 
 > The reason this code isn't correct is that it tries to do something with the DOM node during rendering. In React, rendering should be a pure calculation of JSX and should not contain side effects like modifying the DOM.
 
@@ -102,7 +102,7 @@ Purity is the contract React's whole model rests on: same input, same JSX, no re
 
 > React components you write must always return the same JSX given the same inputs.
 
-Components don't coordinate with each other during render — each one is self-contained.
+Components don't coordinate with each other during render; each one is self-contained.
 
 > React's rendering process must always be pure. Components should only return their JSX, and not change any objects or variables that existed before rendering — that would make them impure!
 
@@ -112,7 +112,7 @@ StrictMode's double-render is a purity linter: if calling twice changes behavior
 
 > By calling the component functions twice, Strict Mode helps find components that break these rules.
 
-Mutation isn't banned outright — only mutation of things you didn't just create.
+Mutation isn't banned outright, only mutation of things you didn't just create.
 
 > It's completely fine to change variables and objects that you've just created while rendering.
 
@@ -122,7 +122,7 @@ Mutation isn't banned outright — only mutation of things you didn't just creat
 
 ## Choosing the state structure: derive, don't duplicate
 
-Two variables that always move together should be one variable — separating them is where a state variable's value can quietly fall out of sync with reality.
+Two variables that always move together should be one variable; separating them is where a state variable's value can quietly fall out of sync with reality.
 
 > If you always update two or more state variables at the same time, consider merging them into a single state variable.
 
@@ -132,7 +132,7 @@ Booleans that can be simultaneously true when they logically shouldn't be are a 
 
 > Since `isSending` and `isSent` should never be `true` at the same time, it is better to replace them with one `status` state variable that may take one of *three* valid states.
 
-Anything computable from existing state or props isn't state — it's a derived value masquerading as one.
+Anything computable from existing state or props isn't state; it's a derived value masquerading as one.
 
 > If you can calculate some information from the component's props or its existing state variables during rendering, you **should not** put that information into that component's state.
 
@@ -158,13 +158,13 @@ Nested trees are expensive to update immutably; flatten into an id-keyed map ins
 
 ## Sharing state: lift up to a single source of truth
 
-When two components need to change together, state doesn't get synced between them — it moves to whichever component contains both.
+When two components need to change together, state doesn't get synced between them; it moves to whichever component contains both.
 
 > Sometimes, you want the state of two components to always change together. To do it, remove state from both of them, move it to their closest common parent, and then pass it down to them via props.
 
 > This is known as *lifting state up*, and it's one of the most common things you will do writing React code.
 
-Ownership, not location, is the invariant — each piece of state has exactly one component responsible for it.
+Ownership, not location, is the invariant; each piece of state has exactly one component responsible for it.
 
 > **For each unique piece of state, you will choose the component that "owns" it.** This principle is also known as having a "single source of truth".
 

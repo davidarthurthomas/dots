@@ -1,6 +1,6 @@
 # Source material: Tanner Linsley on server state
 
-From the TanStack Query docs — the "Overview" (Motivation), "Does TanStack Query replace client state managers?", and "Important Defaults" pages — and the React Summit talk "It's Time to Break Up with Global State." Doc quotes are verbatim. No transcript of the talk was found; its quotes below are drawn from a fetched third-party summary that presented them as direct excerpts, so treat them as close paraphrase rather than a certified verbatim record.
+From the TanStack Query docs (the "Overview" (Motivation), "Does TanStack Query replace client state managers?", and "Important Defaults" pages) and the React Summit talk "It's Time to Break Up with Global State." Doc quotes are verbatim. No transcript of the talk was found; its quotes below are drawn from a fetched third-party summary that presented them as direct excerpts, so treat them as close paraphrase rather than a certified verbatim record.
 
 ## Server state is not client state
 
@@ -29,11 +29,11 @@ In the talk, Linsley draws the same line more bluntly, contrasting the two categ
 
 ## Most "global state" is server state in disguise
 
-Linsley's argument in the talk is that reaching for a global store the moment data needs to be shared across components is a category error — the data isn't state you own, it's a cache of something else's data, and calling it "global state" hides that.
+Linsley's argument in the talk is that reaching for a global store the moment data needs to be shared across components is a category error: the data isn't state you own, it's a cache of something else's data, and calling it "global state" hides that.
 
 > I think we've made a really big mistake by placing it there. We've tricked ourselves and our code into thinking that all state is created equal.
 
-He grants why the mistake is tempting — global stores solve a real, immediate pain:
+He grants why the mistake is tempting; global stores solve a real, immediate pain:
 
 > Global state is super convenient. It helps us avoid prop drilling, and it lets us access data across our application without copying or duplicating it.
 
@@ -47,7 +47,7 @@ Once server data moves into a query cache, the docs describe what typically rema
 
 > the truly globally accessible client state that is left over...is usually very tiny
 
-The docs' own example of what's left is UI preference state — `themeMode`, `sidebarStatus` — not domain data. This isn't an argument to delete client-state libraries; it's an argument that their job shrinks once server data has somewhere better to live:
+The docs' own example of what's left is UI preference state (`themeMode`, `sidebarStatus`), not domain data. This isn't an argument to delete client-state libraries; it's an argument that their job shrinks once server data has somewhere better to live:
 
 > TanStack Query is not a replacement for local/client state management
 
@@ -63,15 +63,15 @@ Staleness triggers automatic background refetches at the points a user is most l
 
 > Stale queries are refetched automatically in the background when: The window is refocused
 
-Data that's no longer in use doesn't linger indefinitely either — it's garbage collected on a timer rather than kept forever on the assumption it might still be right:
+Data that's no longer in use doesn't linger indefinitely either; it's garbage collected on a timer rather than kept forever on the assumption it might still be right:
 
 > By default, 'inactive' queries are garbage collected after 5 minutes.
 
-The docs call this combination "aggressive but sane" — a direct expression of Linsley's premise that server state's defining risk is going quietly out of date, so the defaults should err toward rechecking rather than trusting a stale cache.
+The docs call this combination "aggressive but sane", a direct expression of Linsley's premise that server state's defining risk is going quietly out of date, so the defaults should err toward rechecking rather than trusting a stale cache.
 
 ## The tool follows from the category, not the reverse
 
-In the talk, Linsley frames the library itself as scoped narrowly on purpose — solving asynchronous server state, and nothing more general:
+In the talk, Linsley frames the library itself as scoped narrowly on purpose: solving asynchronous server state, and nothing more general:
 
 > React Query is an NPM library comprised of a couple hooks and utilities that aim to solve asynchronous server state. It's a small API, it's simple, and it's designed to help both novice and advanced React developers.
 

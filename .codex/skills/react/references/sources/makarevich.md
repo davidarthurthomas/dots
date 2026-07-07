@@ -16,7 +16,7 @@ Four reasons cover every re-render: state, parent, context, hooks.
 
 ## The props myth
 
-Props changing is not itself a trigger — it only matters once memoization is in play.
+Props changing is not itself a trigger; it only matters once memoization is in play.
 
 > It doesn't matter whether the component's props change or not when talking about re-renders of not memoized components.
 
@@ -32,7 +32,7 @@ Confusion about why `children` or other component props don't re-render dissolve
 
 > this object is just a description of the things you want to see on the screen when this element actually ends up in the render tree. Not sooner.
 
-The element for `children` (or any component passed as a prop) is created wherever that JSX is written — not by the component re-rendering in between.
+The element for `children` (or any component passed as a prop) is created wherever that JSX is written, not by the component re-rendering in between.
 
 > "children" is a `<ChildComponent />` element that is created in `SomeOutsideComponent`. When `MovingComponent` re-renders because of its state change, its props stay the same. Therefore any `Element` (i.e. definition object) that comes from props won't be re-created, and therefore re-renders of those components won't happen.
 
