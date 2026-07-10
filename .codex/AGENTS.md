@@ -63,7 +63,7 @@ When you finish a task:
 
 **Values at boundaries.** Have components communicate through plain data and value objects rather than sharing mutable state.
 
-**Leave the code better than you found it.** Your code will be copied and imitated by other engineers and AI agents, so set the standard you want repeated.
+**Leave the code better than you found it.** Your code will be copied and imitated by other engineers and AI agents, so set the standard you want repeated. Part of this is fixing preexisting issues you encounter along the way, not just the ones your change introduces.
 
 **Fight entropy debt.** Refactor surrounding code so the whole reads as if written with your change in mind — rename what's now misleading, move logic that now lives in the wrong place. Don't just graft new behavior onto a system built for outdated requirements.
 
@@ -89,7 +89,7 @@ Code is mostly self-documenting. Use clear names and small, well-factored functi
 
 **Use consistent terminology.** Pick one term for each concept and use it everywhere — in names, comments, documentation, and conversation. Do not reach for synonyms or close approximations; varied wording for the same thing makes a reader wonder whether you mean something different.
 
-## Naming
+### Naming
 
 Names do most of the documenting in a codebase, so choose them deliberately. The full treatment, with sources, lives in the `naming` skill; these rules carry the most weight:
 
@@ -104,6 +104,18 @@ Names do most of the documenting in a codebase, so choose them deliberately. The
 **Grammar carries semantics.** A function with side effects is an imperative verb phrase (`x.sort()`); a pure one is a noun phrase or participle (`x.sorted()`). A boolean reads as a positive assertion: `isEmpty`, `cursorVisible`, never `notSuccessful`.
 
 **Hard to name is design feedback.** When no precise name fits, the code has too many responsibilities or the abstraction is wrong; fix the design and the name follows. Until understanding arrives, an honest awkward name beats a plausible false one, and every new insight is a rename.
+
+### Class Layout
+
+Order class members deliberately: any logical order a maintainer could explain is acceptable, and an order enforced by a formatter, linter, or framework lifecycle beats any personal scheme. Absent one, use these rules:
+
+**Default order.** Constants and static fields, instance fields, constructors and factory methods, public methods, private helpers, boilerplate overrides (`equals`, `toString`) last.
+
+**Group by relatedness within each block.** Keep overloads adjacent. Order public methods by importance or call flow. A private helper with a single caller sits just below that caller rather than at the bottom, so the file reads top-down from high level to detail.
+
+**Never chronological.** Appending new members at the bottom is the one ordering nobody can explain. Place each member where a reader would look for it.
+
+**Hard to order is design feedback.** If members won't settle into one order — the helpers cluster into unrelated groups, or no public method is clearly primary — the class has more than one responsibility. Split it.
 
 ## Testing
 
