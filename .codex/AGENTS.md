@@ -117,6 +117,22 @@ Order class members deliberately: any logical order a maintainer could explain i
 
 **Hard to order is design feedback.** If members won't settle into one order — the helpers cluster into unrelated groups, or no public method is clearly primary — the class has more than one responsibility. Split it.
 
+### File Structure
+
+Where code lives and where the lines between modules fall. Decide it deliberately; the full treatment, with sources, lives in the `file-structure` skill. A hard-to-place file and a hard-to-name symbol are the same design smell from two angles (see Naming).
+
+**Group by what changes together, split by what changes apart.** Decompose by the decisions a module hides, never by the steps it performs. Each file owns one reason to change; ask "what change would force me to edit this?" and two answers means two files. The tempting groupings are the bad ones: same category (a `utils` drawer), same phase (an `init` doing ten setups), same execution order ("read, then process, then write"). Group by shared secret, not shared kind or shared timing.
+
+**One file, one job.** Aim for functional cohesion: a file you can summarize in a phrase with no "and". Colocate what serves one thing: test beside code, helper beside its one caller, type beside its function. Distance between two files should track how often you open them together. `utils`, `helpers`, `common`, `shared` are the homeopathic suffixes Naming bans, now on directories: each confesses the concept was never identified.
+
+**Point dependencies toward stability and policy, with no cycles.** Volatile details (database, framework, delivery) depend on stable domain policy, never the reverse; invert with an interface where control flows the wrong way. Two modules that import each other are one module with two names; break it. Among homes that fit, choose the one that drags in the least: fewest imports, thinnest interface.
+
+**Favor deep modules.** A simple interface over a substantial implementation pays for its boundary; a shallow wrapper that forwards or a pass-through layer is a net cost. More files is not more modular: split a file when it holds two reasons to change, not when it crosses a line count, and merge two shallow files whose interfaces cost more than they hide. Information leakage (one decision surfacing in two files) is worse than duplication, because the sites don't look alike.
+
+**Slice the tree by domain first.** Cut the top level by feature (`orders/ billing/`), not by framework role (`controllers/ models/`), so a feature change lands in one folder and the tree reads as a map of the product. Layering is a fine secondary cut inside a feature, a poor primary cut at the root. Add a directory only for a concept with a real domain name, never just to thin a crowded folder. The biggest seams (Evans's bounded contexts) matter more than any file placement inside them.
+
+**Hard to place is design feedback.** If nothing fits (the file has two jobs, the folder has no name, the dependency points backward), reshape the thing rather than picking the least-bad drawer.
+
 ## Testing
 
 Tests are how you change code without holding your breath. So don't ask whether a test passes. Ask whether it's a good test, and keep a list of what you want from one. Hold each test up to these. If it misses one, that's the thing to fix. The full treatment, with sources, lives in the `testing` skill.
