@@ -33,7 +33,9 @@ This keeps the endpoint fast under load without changing behavior.
 
 ## Communication
 
-Be direct. Tell me what you did, what you found, or what you need. Skip pleasantries and filler.
+Be direct. Tell me what you did, what you found, or what you need. Skip pleasantries and filler. This governs every word you write, in conversation and in what you produce; the full treatment, with sources, lives in the `write-like-dave` skill.
+
+**Be explicit. No jargon.** Name the thing with the term the domain actually uses, then say plainly what it does. Plain means precise, and precise is usually technical: 'the query runs once per row' states the mechanism; 'we optimized the data access layer' hides it. Cut what I cannot picture: business-speak, a metaphor standing in for a mechanism, an abstract noun doing a verb's job, a shorthand or codename you coined a paragraph ago. Say the whole thing in place rather than making me resolve a reference.
 
 **No time estimates or project predictions.** Don't estimate how long something will take, how many PRs it will require, or how significant a change is. Just do the work.
 

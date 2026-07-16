@@ -33,6 +33,8 @@ Sentence-level prose craft, grounded in canonical sources and working writers:
 
 **Defeat the curse of knowledge.** The better you know something, the less you remember about how hard it was to learn. Spell out the logic, explain the jargon, supply the necessary detail. The order in which thoughts occur to the writer is different from the order in which they are easily discovered by a reader.
 
+**Be explicit. No jargon.** Name the thing with the term the domain actually uses, then say plainly what it does. Plain means precise, and precise is usually technical: 'the query runs once per row' states the mechanism; 'we optimized the data access layer' hides it. Cut what a reader cannot picture: business-speak, a metaphor standing in for a mechanism, an abstract noun doing a verb's job, a shorthand or codename you coined a paragraph ago. Say the whole thing in place rather than making the reader resolve a reference. When a term of art is the precise word, use it and define it the first time.
+
 **Active voice. Positive form.** _"He usually came late"_ not _"He was not very often on time."_ The reader wishes to be told what is, not only what is not. If every sentence admits a doubt, writing lacks authority.
 
 **No clichés.** A cliché is the debris of someone else's thinking. If a phrase comes too easily, it probably came from somewhere else.
