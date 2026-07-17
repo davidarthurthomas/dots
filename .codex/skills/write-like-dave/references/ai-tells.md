@@ -41,16 +41,12 @@ Any sentence that negates one framing then asserts a corrected one. The pattern 
 
 ### Agentless subjects
 
-A transitive verb used intransitively, with the thing acted upon promoted to subject and the actor deleted. The sentence is grammatically active, so the active-voice rule never fires on it, but the subject can't perform the verb. English permits this for a real class of verbs — the door opened, the ice melted, the book sells well — and the tell is overgeneralizing that pattern to verbs that require an actor.
-
-Test by appending "by itself." *The door opened by itself* holds. *Payments settle by itself* does not, so name what settles them.
+A transitive verb used intransitively, with the thing acted upon promoted to subject and the actor deleted. The sentence is grammatically active, so the active-voice rule never fires on it, but the subject can't perform the verb. English permits this for a real class of verbs (the door opened, the ice melted, the book sells well); the tell is overgeneralizing that pattern to verbs that require an actor. Test by appending "by itself": *the door opened by itself* holds, *payments settle by itself* does not.
 
 > Before: "Payments settle by region."
 > After: "The clearing job settles payments by region."
 
-Name the actor rather than reaching for "we". In technical prose the actor is usually a component, and naming it states the mechanism; "we" is right only when the actor is genuinely the author or the team. Reach for the passive only when the actor is unknown or truly irrelevant.
-
-Leave alone the verbs that are intransitive on their own (open, melt, break, grow, vary, scale, sell) and stative claims about a property ("length scales with scope", "names do most of the documenting"). The tell is a deleted actor, not an inanimate subject.
+Name the actor, usually a component rather than "we"; use the passive only when the actor is unknown or truly irrelevant. Genuinely intransitive verbs (open, melt, break, grow, vary, scale, sell) and stative claims about a property ("length scales with scope") are not this tell: the defect is a deleted actor, not an inanimate subject.
 
 ### False ranges
 

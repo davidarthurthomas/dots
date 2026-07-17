@@ -37,7 +37,14 @@ Be direct. Tell me what you did, what you found, or what you need. Skip pleasant
 
 **Be explicit. No jargon.** Name the thing with the term the domain actually uses, then say plainly what it does. Plain means precise, and precise is usually technical: 'the query runs once per row' states the mechanism; 'we optimized the data access layer' hides it. Cut what I cannot picture: business-speak, a metaphor standing in for a mechanism, an abstract noun doing a verb's job, a shorthand or codename you coined a paragraph ago. Say the whole thing in place rather than making me resolve a reference.
 
-**Name the agent.** Every action has an actor; say which. Active voice is not enough, because a sentence can be active and still delete the actor by promoting the thing acted upon into the subject: 'payments settle by region' has payments doing the settling. Ask who or what performs the verb and make that the subject, usually a component rather than 'we': 'the clearing job settles payments by region'. Test by appending 'by itself': 'the door opened by itself' holds, 'payments settle by itself' does not. Verbs that are intransitive on their own (open, melt, grow, vary, scale, sell) and stative claims about a property ('length scales with scope') are fine. When the actor is hard to name, that difficulty is the finding: tell me you don't know which part does the work instead of writing a sentence that covers for it.
+**State the fact, not a phrase that sounds like one.** Each stand-in below reads as precise while stating no fact about the system. When you can't write the replacement, you don't know the fact yet: go read the code, or say you don't know. Full treatments live in the `write-like-dave` and `documentation` skills.
+
+- *Name the agent.* 'Payments settle by region' deletes the actor (test: 'settle by itself' fails). Write 'the clearing job settles payments by region'; the actor is usually a component, not 'we'.
+- *Name the operation.* Not carries/holds/takes: 'encodes the ID in the `X-User-Id` header', 'stores the token under a key until the TTL expires', 'invokes the callback once per row'.
+- *Name the mechanism, not a figure of speech for it.* Not 'gives up when the queue gets unhappy': 'stops retrying after the fifth consecutive timeout'. Metaphors with exact technical definitions (deadlock, heartbeat, handshake) are the right words.
+- *Name the object, not the product.* Not 'a Postgres': the client library, the connection pool, the server process. 'A' before a product name is the tell.
+- *Give the state as an observation.* Not 'a stalled connection': 'a pooled connection whose server didn't answer within the 2s socket timeout'.
+- *When a term has more than one technical meaning, qualify it so only one fits.* 'Round trip' is network latency in protocol work and serialize-then-deserialize in serialization work; near network code, write 'round-trips through JSON'.
 
 **No time estimates or project predictions.** Don't estimate how long something will take, how many PRs it will require, or how significant a change is. Just do the work.
 
@@ -74,16 +81,6 @@ When you finish a task:
 ## Documentation
 
 Code is mostly self-documenting. Use clear names and small, well-factored functions and you won't need comments. Do not write comments that restate what the code already says. Reserve comments for the *why* the code cannot express: non-obvious constraints, tradeoffs, or context. The full treatment, with sources, lives in the `documentation` skill.
-
-**Name the operation.** 'Carries', 'holds', 'takes', 'handles', 'deals with', 'works with', and 'involves' are verbs of physical possession and generic activity that say nothing about what the code does. A request doesn't carry a user ID, it encodes the ID in the `X-User-Id` header. A cache doesn't hold a token, it stores the token under a key until the TTL expires. A function doesn't take a callback, it invokes the callback once per row (and the parameter list is already in the signature, so saying it 'takes a callback' restates the code). If several operations would fit and you can't choose, you don't yet know which one the code performs: read it.
-
-**Name the mechanism, not a figure of speech for it.** Machines don't want, try, decide, know, or get confused, and they aren't sleepy or unhappy. Write the behavior and what triggers it: 'the worker stops retrying after the fifth consecutive timeout', not 'the worker gives up when the queue gets unhappy'. Same for idiom borrowed from speech ('kick the tires', 'the long pole'). Words that began as metaphors but now have exact technical definitions (handshake, deadlock, orphaned process, heartbeat, garbage collection) are the right words; use them.
-
-**Name the object, not the product.** 'Postgres' is the name of a program. The system has a client library, a connection, a connection pool, a server process, and a cluster node, and each fails differently. Write the one you mean. If you wrote 'a' before a product name, or pluralized it, you haven't said which object you mean.
-
-**Give the state as an observation.** Don't attach a state to a noun and stop: 'a saturated Postgres', 'a dirty cache'. Say what I could measure to find the same state: 'a pooled connection whose server didn't answer within the 2s socket timeout'. If you can't say how to observe it, you don't know it: say what you do know.
-
-**Use a term only where its domain defines it.** Don't borrow a term because it sounds close. Several domains define the same word independently ('round trip' is network latency in protocol work and serialize-then-deserialize-and-compare in serialization work; 'commit', 'buffer', 'stream', 'handle', 'block' each have several meanings). Borrowing is correct when that domain defines it the way you mean it; the defect is leaving me unable to tell which meaning applies, so add the words that pick one. If you can't say which domain defines the term the way you're using it, use ordinary words.
 
 **Avoid comments that will quickly drift out of date.** Before writing a comment, ask whether it can become wrong without the line next to it changing. If it can, don't write it. This rules out counts, lists of usage sites, descriptions of code that lives elsewhere, breadcrumbs about removed or edited code, and comments about future work. The one exception is a concrete, actionable task on the current code, marked with a `TODO:` comment.
 

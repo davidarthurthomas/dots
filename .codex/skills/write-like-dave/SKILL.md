@@ -37,7 +37,7 @@ Sentence-level prose craft, grounded in canonical sources and working writers:
 
 **Active voice. Positive form.** _"He usually came late"_ not _"He was not very often on time."_ The reader wishes to be told what is, not only what is not. If every sentence admits a doubt, writing lacks authority.
 
-**Name the agent.** Every action has an actor; say which. Active voice alone does not get you there, because a sentence can be active and still hide the actor by promoting the thing acted upon into the subject: _"Payments settle by region"_ has payments doing the settling. Ask who or what performs the verb and make that the subject: _"The clearing job settles payments by region."_ When the actor is hard to name, that difficulty is the finding — the sentence was covering for not knowing which part of the system does the work.
+**Name the agent.** Every action has an actor; make it the subject. A sentence can be active and still hide the actor by promoting the thing acted upon: _"Payments settle by region"_ has payments doing the settling. Write _"The clearing job settles payments by region."_ When the actor is hard to name, the sentence is covering for not knowing which part of the system does the work; that difficulty is the finding.
 
 **No clichés.** A cliché is the debris of someone else's thinking. If a phrase comes too easily, it probably came from somewhere else.
 
@@ -106,7 +106,7 @@ LLMs produce recognizable tics. Hunt and eliminate these during every editing pa
 
 **No copula avoidance.** "X is Y", not "X serves as Y" or "X stands as Y."
 
-**No agentless subjects.** A transitive verb used intransitively, with the thing acted upon promoted to subject and the actor deleted: "Payments settle by region." The sentence is active, so the active-voice rule never catches it, but payments don't settle anything. Test by appending "by itself": *the door opened by itself* holds, *payments settle by itself* does not. Name the actor, which in technical prose is usually a component: "The clearing job settles payments by region." Verbs that are intransitive on their own (open, melt, grow, vary, scale, sell) and stative claims about a property ("length scales with scope") are not this tell.
+**No agentless subjects.** A transitive verb with its actor deleted and the thing acted upon promoted to subject: "Payments settle by region." Test by appending "by itself" (*the door opened by itself* holds, *payments settle by itself* does not), then name the actor, usually a component: "The clearing job settles payments by region." Genuinely intransitive verbs (open, melt, grow, vary, scale, sell) and stative claims ("length scales with scope") are fine.
 
 **No -ing phrase tails.** Cut participial phrases tacked onto sentences for fake depth: "ensuring better maintainability", "showcasing the team's commitment."
 
