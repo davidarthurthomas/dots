@@ -62,9 +62,9 @@ This is a sibling of the `naming` skill. A hard-to-name thing and a hard-to-plac
 
 ## Placing or splitting code
 
-1. Say in one phrase what the file is responsible for. If the honest phrase needs "and", that's two files.
-2. Ask what change would force you to edit it. Group it with what changes for that same reason; separate it from what changes for a different one.
-3. Reject the tempting groupings: same category, same phase, same execution order. Group by shared secret, not shared kind or shared timing.
-4. Among the homes that fit, choose the one that drags in the least: fewest imports, thinnest interface, no new cycle.
-5. Check the tree: does a feature (or the domain) already have a folder for this? Put it there. Reach for `shared/` only when many features truly use it.
-6. If nothing fits (the file has two jobs, the folder has no name, the dependency points backward), treat it as design feedback and reshape the thing; don't just pick the least-bad drawer.
+1. Summarize the file's job in one phrase (One file, one job).
+2. Find what change would force an edit (Group by what changes together, split by what changes apart).
+3. Reject the tempting groupings (Reason-to-change, not category, not phase, not time).
+4. Weigh the homes that fit by coupling (Prefer the placement with the fewest, thinnest ties).
+5. Check the tree for an existing domain folder (The top level is the domain; the technical split goes underneath).
+6. If nothing fits, treat it as the same design smell `naming` diagnoses (see intro).

@@ -100,7 +100,7 @@ Sentence-level prose craft, grounded in canonical sources and working writers:
 LLMs produce recognizable tics. Hunt and eliminate these during every editing pass. For the full catalog with before/after examples: [references/ai-tells.md](references/ai-tells.md)
 
 <!-- @> No negate-then-reframe, no em dashes, no agentless subjects, no -ing tails, no dead AI vocabulary, no hedging stacks, no throat-clearing, no sycophancy -->
-**Never negate-then-reframe.** "This isn't X. This is Y." / "Not X. Y." / "Forget X. This is Y." / "Less X, more Y." Any sentence that negates one framing then asserts a corrected one. Delete the negation; state the positive claim. This is the single most fatal AI marker. The variants slip through more than the base form, so watch for all of them: reverse ("Y, not X"; "a gatekeeper, not a directory"), "not just X but Y", and the diminish-and-elevate ("X is the demo; the real product is Y"). The test is position: a negation that *leads and merely restates* the positive is the tell ("it is not the source of truth. It is a fast way to avoid asking it"); a short negation that *trails* a positive claim and rules out a genuine alternative the reader might assume is fine ("make the expensive check rare, not replace it").
+**Never negate-then-reframe.** "This isn't X. This is Y." / "Not X. Y." / "Forget X. This is Y." / "Less X, more Y." Any sentence that negates one framing then asserts a corrected one. Delete the negation; state the positive claim. This is the single most fatal AI marker. The variants slip through more than the base form, so watch for all of them: reverse ("Y, not X"; "a gatekeeper, not a directory"; "you're cultivating, not constructing"), "not just X but Y", and the diminish-and-elevate ("X is the demo; the real product is Y"). The test is position: a negation that *leads and merely restates* the positive is the tell ("it is not the source of truth. It is a fast way to avoid asking it"); a short negation that *trails* a positive claim and rules out a genuine alternative the reader might assume is fine ("make the expensive check rare, not replace it").
 
 **No em dashes.** Use commas, periods, colons, semicolons, or parentheses.
 
@@ -126,7 +126,7 @@ LLMs produce recognizable tics. Hunt and eliminate these during every editing pa
 
 **No insider posturing.** "Here's the part nobody's talking about", "What nobody tells you." State the insight directly.
 
-**No rhythmic triplets.** Two items or a full list. Three adjectives in a row is a tell.
+**No rhythmic triplets.** Two items or a full list. Three adjectives in a row is a tell; once per paragraph can work, but twice in adjacent sentences reads like a stuck pattern.
 
 **No sycophantic tone.** "Great question!", "You're absolutely right!", "I hope this helps!", "I'd be happy to help." Cut entirely.
 
@@ -170,7 +170,7 @@ Prefer the more precise or elevated synonym when the register supports it: 'choo
 
 ### Additional anti-patterns
 
-'Y, not X' is the same negate-then-reframe in reverse: 'you're cultivating, not constructing' is as much an AI tell as 'not X, but Y'. State the positive. Watch for adjacent triplets: once per paragraph can work, twice in adjacent sentences reads like a stuck pattern. Vary list lengths.
+Vary list lengths.
 
 ### Voice exemplars
 

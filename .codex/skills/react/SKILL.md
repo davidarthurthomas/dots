@@ -27,7 +27,7 @@ For test discipline in general, see the `testing` skill; for names, the `naming`
 
 ## Thinking in components
 
-**Render is a pure calculation.** A component takes props and state and returns JSX, and nothing else: "Components should only return their JSX, and not change any objects or variables that existed before rendering." Same inputs, same output; mutating is fine only for objects created during this render. A component must also survive rendering at any frequency (StrictMode calls it twice precisely to catch violations), and Abramov's bar is strict: "If removing an optimization breaks a component, it was too fragile to begin with."
+**Render is a pure calculation.** A component takes props and state and returns JSX, and nothing else: "Components should only return their JSX, and not change any objects or variables that existed before rendering." Same inputs, same output; mutating is fine only for objects created during this render.
 
 **Build the static version first.** Render the full UI from a hard-coded data model before adding any state: "Building a static version requires a lot of typing and no thinking, but adding interactivity requires a lot of thinking and not a lot of typing." Getting the component tree and one-way data flow right first means the later question is only where state lives, not what the components are.
 
@@ -35,7 +35,7 @@ For test discipline in general, see the `testing` skill; for names, the `naming`
 
 **Never define a component inside another component.** A function defined during render is a new type identity every render, so React remounts the subtree instead of updating it, and the subtree's state is lost. Makarevich calls it "an anti-pattern that can be the biggest performance killer".
 
-**Colocate.** "Place code as close to where it's relevant as possible": state in the component that uses it, styles next to the markup, tests next to the code, a single-caller helper next to its caller. Distance is what lets related things drift apart.
+**Colocate.** "Place code as close to where it's relevant as possible": state in the component that uses it, styles next to the markup, tests next to the code, a single-caller helper next to its caller. Distance is what lets related things drift apart. The same goes for state shared between components: keep it local, and lift it only when two components need it, moving it no further than their closest common parent so exactly one component owns it.
 
 ## State
 
@@ -45,8 +45,6 @@ For test discipline in general, see the `testing` skill; for names, the `naming`
 
 **Make contradictions impossible.** Booleans that can be simultaneously true when they logically can't be (`isSending` and `isSent`) leave "room for mistakes"; replace them with one `status` variable whose values are exactly the valid states. Store the `selectedId`, not a `selectedItem` copy that can drift from the list it came from.
 
-**Colocate state; lift only when two components need it.** "Keep state as close to where it's needed as possible." When siblings must change together, move the state to their closest common parent: for each piece of state exactly one component owns it, a "single source of truth". Abramov's test for what stays local: "If this component was rendered twice, should this interaction reflect in the other copy? Whenever the answer is 'no', you found some local state."
-
 **Prop drilling is explicit, not a smell.** Passing a value down through a few layers lets a reader trace its origin statically, an improvement over anything implicit. When drilling gets painful, reach for composition (pass rendered elements down) before Context, and keep any provider near its consumers.
 
 **Don't copy props into state.** "By copying a prop into state you're ignoring all updates to it": the `useState` initializer is read once, at mount, and every later prop change is silently dropped. To reset on a change, give the component a `key`; to keep it live, drop the local state and let the parent own it.
@@ -55,7 +53,7 @@ For test discipline in general, see the `testing` skill; for names, the `naming`
 
 ## Server state and the URL
 
-**Server state is borrowed, not owned.** Fetched data "can be changed by other people without your knowledge" and goes stale from the moment it arrives: "we have just borrowed it to display that snapshot". It belongs in a cache that assumes staleness and revalidates, never in `useState` or a store. Treat every parameter the fetch reads as part of its cache key, the same discipline as an effect's dependency array, and err toward refetching too often rather than trusting a stale copy.
+**Server state is borrowed, not owned.** Fetched data goes stale from the moment it arrives: "we have just borrowed it to display that snapshot". It belongs in a cache that assumes staleness and revalidates, never in `useState` or a store. Treat every parameter the fetch reads as part of its cache key, the same discipline as an effect's dependency array, and err toward refetching too often rather than trusting a stale copy.
 
 **Most "global state" is a mislabeled server cache.** Linsley: "We've tricked ourselves and our code into thinking that all state is created equal." Reaching for a global store because fetched data needs sharing solves the sharing and ignores the staleness. Once server data lives in a cache, "the truly globally accessible client state that is left over ... is usually very tiny": UI preferences like theme and sidebar state, not domain data.
 
@@ -81,7 +79,7 @@ For test discipline in general, see the `testing` skill; for names, the `naming`
 
 **Composition is the built-in optimization.** Move state down into the smallest component that needs it, and lift expensive content up past the state as `children`: an element created outside the re-rendering component is the same reference as last time, so React skips its subtree. These are structural fixes (they also flatten prop plumbing) and they come before any `memo`.
 
-**Memoization comes last, and it's fragile.** `React.memo` shallow-compares props with `Object.is`, so a single inline object, array, or function silently defeats it: "All props that are not primitive values have to be memoized for React.memo to work", and `useCallback` on its own "doesn't work". Whoever adds a prop later won't know the component was memoized, which is why TkDodo calls it "an uphill battle that's hardly winnable". Restructure first, then profile, and only then, in Abramov's words, "sprinkle those memo's".
+**Memoization comes last, and it's fragile.** `React.memo` shallow-compares props with `Object.is`, so a single inline object, array, or function silently defeats it: "All props that are not primitive values have to be memoized for React.memo to work", and `useCallback` on its own "doesn't work". Whoever adds a prop later won't know the component was memoized. Restructure first, then profile, and only then reach for memoization.
 
 **A context change re-renders every consumer.** "Every nested component that consumes that context will be forced to re-render", with no way to subscribe to part of the value. Memoize the provider's value if it isn't a primitive, keep providers narrow, and split contexts that change at different rates.
 

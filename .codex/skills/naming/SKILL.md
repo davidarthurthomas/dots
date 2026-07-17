@@ -73,9 +73,9 @@ Naming principles, grounded in the canon:
 
 ## Choosing a name
 
-1. Say in words what the thing is, or does for its caller. That sentence is the raw material; trim from there.
-2. Write a realistic call site and read it aloud. If it doesn't form a plain sentence, rename.
-3. Strip words the reader already has from context or type; keep words whose removal would change a reader's guess.
-4. Ask what else the name could mean. Every plausible misreading is a rename or a qualifier.
-5. Check the vocabulary: does the codebase or the domain already have a word for this? Use that word, or if it's taken, a genuinely different one.
-6. If no precise name fits, treat it as a design smell and reshape the thing being named.
+1. What to name for.
+2. Judge the name at the call site.
+3. Every word earns its place.
+4. The image test.
+5. The domain's word; follow precedent.
+6. Hard to name is design feedback.

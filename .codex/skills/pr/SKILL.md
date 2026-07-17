@@ -20,7 +20,7 @@ global_category: Git
 ## Procedure
 
 1. Determine the base branch (see [Base branch](#base-branch)) — do this first, a wrong base makes the diff meaningless.
-2. Review the full diff: `gh pr diff` for existing PRs, or `git fetch origin <base>` then `git diff origin/<base>...HEAD`. Never diff against a local branch, which may be stale.
+2. Review the full diff: `gh pr diff` for existing PRs, or `git fetch origin <base>` then `git diff origin/<base>...HEAD` (see [Base branch](#base-branch)).
 3. Check commit style with `git log`, then run pre-submission checks (types, lint, format, tests).
 4. Stage, commit with a concise message, and push with `-u`.
 5. Draft the title and description per the rules below, then create the PR with `gh pr create --draft`.
@@ -90,9 +90,8 @@ Never use `##` headers. Open with a paragraph on the problem, context, or motiva
 
 ## What to avoid
 
-- File-by-file listings or mechanical inventories (unless the refactor is the point).
+- File-by-file listings, mechanical inventories, or restating the diff ("migrates all shorthand usages to longhand"): unless the refactor is the point, give the what and why, not the mechanical operation.
 - Counts, magnitudes, or diff stats ("~75 instances", "+200 lines") — GitHub shows these.
-- Restating the diff ("migrates all shorthand usages to longhand") — give the what and why, not the mechanical operation.
 - Status information ("all tests pass", "ran typecheck") — CI is assumed.
 - AI vocabulary ("defense-in-depth", "leveraging", "ensuring robustness").
 - Decision narration ("Rather than X, I extracted Y") — state facts; use "Considered alternatives" when rejection context is genuinely useful.
