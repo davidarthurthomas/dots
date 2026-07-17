@@ -22,7 +22,7 @@ Sentence-level prose craft, grounded in canonical sources and working writers:
 
 ## Principles
 
-<!-- @> The sentence is the unit of work. Omit needless words. Clarity over style. Active voice, positive form -->
+<!-- @> The sentence is the unit of work. Omit needless words. Clarity over style. Active voice, positive form. Name the agent -->
 **The sentence is the unit of work.** Know what each sentence says, what it doesn't say, and what it implies. If something feels off (the internal quaver), find the cause and fix it.
 
 **Omit needless words.** Every word must tell. When a sentence is made stronger, it usually becomes shorter. This does not mean all sentences should be short; it means every word earns its place.
@@ -36,6 +36,8 @@ Sentence-level prose craft, grounded in canonical sources and working writers:
 **Be explicit. No jargon.** Name the thing with the term the domain actually uses, then say plainly what it does. Plain means precise, and precise is usually technical: 'the query runs once per row' states the mechanism; 'we optimized the data access layer' hides it. Cut what a reader cannot picture: business-speak, a metaphor standing in for a mechanism, an abstract noun doing a verb's job, a shorthand or codename you coined a paragraph ago. Say the whole thing in place rather than making the reader resolve a reference. When a term of art is the precise word, use it and define it the first time.
 
 **Active voice. Positive form.** _"He usually came late"_ not _"He was not very often on time."_ The reader wishes to be told what is, not only what is not. If every sentence admits a doubt, writing lacks authority.
+
+**Name the agent.** Every action has an actor; say which. Active voice alone does not get you there, because a sentence can be active and still hide the actor by promoting the thing acted upon into the subject: _"Payments settle by region"_ has payments doing the settling. Ask who or what performs the verb and make that the subject: _"The clearing job settles payments by region."_ When the actor is hard to name, that difficulty is the finding — the sentence was covering for not knowing which part of the system does the work.
 
 **No clichés.** A cliché is the debris of someone else's thinking. If a phrase comes too easily, it probably came from somewhere else.
 
@@ -97,12 +99,14 @@ Sentence-level prose craft, grounded in canonical sources and working writers:
 
 LLMs produce recognizable tics. Hunt and eliminate these during every editing pass. For the full catalog with before/after examples: [references/ai-tells.md](references/ai-tells.md)
 
-<!-- @> No negate-then-reframe, no em dashes, no -ing tails, no dead AI vocabulary, no hedging stacks, no throat-clearing, no sycophancy -->
+<!-- @> No negate-then-reframe, no em dashes, no agentless subjects, no -ing tails, no dead AI vocabulary, no hedging stacks, no throat-clearing, no sycophancy -->
 **Never negate-then-reframe.** "This isn't X. This is Y." / "Not X. Y." / "Forget X. This is Y." / "Less X, more Y." Any sentence that negates one framing then asserts a corrected one. Delete the negation; state the positive claim. This is the single most fatal AI marker. The variants slip through more than the base form, so watch for all of them: reverse ("Y, not X"; "a gatekeeper, not a directory"), "not just X but Y", and the diminish-and-elevate ("X is the demo; the real product is Y"). The test is position: a negation that *leads and merely restates* the positive is the tell ("it is not the source of truth. It is a fast way to avoid asking it"); a short negation that *trails* a positive claim and rules out a genuine alternative the reader might assume is fine ("make the expensive check rare, not replace it").
 
 **No em dashes.** Use commas, periods, colons, semicolons, or parentheses.
 
 **No copula avoidance.** "X is Y", not "X serves as Y" or "X stands as Y."
+
+**No agentless subjects.** A transitive verb used intransitively, with the thing acted upon promoted to subject and the actor deleted: "Payments settle by region." The sentence is active, so the active-voice rule never catches it, but payments don't settle anything. Test by appending "by itself": *the door opened by itself* holds, *payments settle by itself* does not. Name the actor, which in technical prose is usually a component: "The clearing job settles payments by region." Verbs that are intransitive on their own (open, melt, grow, vary, scale, sell) and stative claims about a property ("length scales with scope") are not this tell.
 
 **No -ing phrase tails.** Cut participial phrases tacked onto sentences for fake depth: "ensuring better maintainability", "showcasing the team's commitment."
 

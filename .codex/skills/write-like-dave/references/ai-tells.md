@@ -39,6 +39,19 @@ Any sentence that negates one framing then asserts a corrected one. The pattern 
 > Before: "This module serves as the entry point for the application."
 > After: "This module is the entry point."
 
+### Agentless subjects
+
+A transitive verb used intransitively, with the thing acted upon promoted to subject and the actor deleted. The sentence is grammatically active, so the active-voice rule never fires on it, but the subject can't perform the verb. English permits this for a real class of verbs — the door opened, the ice melted, the book sells well — and the tell is overgeneralizing that pattern to verbs that require an actor.
+
+Test by appending "by itself." *The door opened by itself* holds. *Payments settle by itself* does not, so name what settles them.
+
+> Before: "Payments settle by region."
+> After: "The clearing job settles payments by region."
+
+Name the actor rather than reaching for "we". In technical prose the actor is usually a component, and naming it states the mechanism; "we" is right only when the actor is genuinely the author or the team. Reach for the passive only when the actor is unknown or truly irrelevant.
+
+Leave alone the verbs that are intransitive on their own (open, melt, break, grow, vary, scale, sell) and stative claims about a property ("length scales with scope", "names do most of the documenting"). The tell is a deleted actor, not an inanimate subject.
+
 ### False ranges
 
 "From X to Y" where X and Y aren't on a meaningful scale.
