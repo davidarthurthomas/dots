@@ -35,7 +35,7 @@ Each rule below names one way of writing a phrase that sounds precise while stat
 
 **Give the state as an observation.** Not "a saturated Postgres", "a dirty cache", "a bad connection": say what a reader could measure to find the same state, e.g. "a pooled connection whose server did not answer within the 2s socket timeout". A state nobody can check is a guess written as a fact.
 
-**When a term has more than one technical meaning, qualify it so only one fits.** "Round trip" is network latency in protocol work and serialize-then-deserialize-and-compare in serialization work; "commit", "buffer", "stream", "handle", "block" each have several meanings. In code that makes network calls, a bare "round trip" could mean either, so write "round-trips through JSON". If no technical field uses the term the way you are using it, you are guessing at its meaning: use ordinary words.
+**When a term has more than one technical meaning, say the operation in ordinary words.** "Round trip" is network latency in protocol work and serialize-then-deserialize-and-compare in serialization work; "commit", "buffer", "stream", "handle", "block" each have several meanings. In code that makes network calls, a bare "round trip" could mean either, so write the operation: "serializes to JSON and parses back unchanged". If no technical field uses the term the way you are using it, you are guessing at its meaning: ordinary words again.
 
 ## Comments
 

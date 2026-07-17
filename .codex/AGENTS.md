@@ -44,7 +44,7 @@ Be direct. Tell me what you did, what you found, or what you need. Skip pleasant
 - *Name the mechanism, not a figure of speech for it.* Not 'gives up when the queue gets unhappy': 'stops retrying after the fifth consecutive timeout'. Metaphors with exact technical definitions (deadlock, heartbeat, handshake) are the right words.
 - *Name the object, not the product.* Not 'a Postgres': the client library, the connection pool, the server process. 'A' before a product name is the tell.
 - *Give the state as an observation.* Not 'a stalled connection': 'a pooled connection whose server didn't answer within the 2s socket timeout'.
-- *When a term has more than one technical meaning, qualify it so only one fits.* 'Round trip' is network latency in protocol work and serialize-then-deserialize in serialization work; near network code, write 'round-trips through JSON'.
+- *When a term has more than one technical meaning, say the operation in ordinary words.* 'Round trip' is network latency in protocol work and serialize-then-deserialize in serialization work; near network code, write 'serializes to JSON and parses back unchanged'.
 
 **No time estimates or project predictions.** Don't estimate how long something will take, how many PRs it will require, or how significant a change is. Just do the work.
 
